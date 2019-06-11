@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MyPortfolio.Migrations
 {
-    public partial class Initialmigration : Migration
+    public partial class FirstMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -41,7 +41,6 @@ namespace MyPortfolio.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(maxLength: 30, nullable: false),
                     LastName = table.Column<string>(maxLength: 30, nullable: false),
                     StreetAddress = table.Column<string>(maxLength: 55, nullable: false)
@@ -49,7 +48,6 @@ namespace MyPortfolio.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                    table.UniqueConstraint("AK_AspNetUsers_UserId", x => x.UserId);
                 });
 
             migrationBuilder.CreateTable(
@@ -239,9 +237,8 @@ namespace MyPortfolio.Migrations
                     UserAgencyId = table.Column<int>(maxLength: 30, nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AgencyId = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: false),
-                    AccountNo = table.Column<int>(nullable: false),
-                    ApplicationUserId = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(nullable: false),
+                    AccountNo = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -253,11 +250,11 @@ namespace MyPortfolio.Migrations
                         principalColumn: "AgencyId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserAgencies_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
+                        name: "FK_UserAgencies_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -293,8 +290,8 @@ namespace MyPortfolio.Migrations
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "StreetAddress", "TwoFactorEnabled", "UserId", "UserName" },
-                values: new object[] { "cb046eec-ac93-4101-aa19-9f9424909b73", 0, "af8c8064-b936-4ac6-b22e-1ae513dffe6e", "admin@admin.com", true, "Admina", "Straytor", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEJYWQ3SZC/wWtp5BlgYATJruyu3OiwSSbPNbGvBE+rSRfmiHFYIMYnJIJ3as+42QmQ==", null, false, "478b5ed4-9881-4c0d-a483-3007385c4f1f", "123 Infinity Way", false, 0, "admin@admin.com" });
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "StreetAddress", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "d816c9d6-be9a-47f1-9692-7df6559963cb", 0, "c265c625-654a-44bd-8da0-a5dc6aca2962", "admin@admin.com", true, "Admina", "Straytor", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEKeQI4Owo+VGzZeIxDVu7dbknNccdlnsJqmVAG1puLUmgWuNYtLpfjlghcQMvUBArA==", null, false, "e290a9f3-3682-4bcf-958f-96ecc13cf3f3", "123 Infinity Way", false, "admin@admin.com" });
 
             migrationBuilder.InsertData(
                 table: "Countries",
@@ -318,13 +315,13 @@ namespace MyPortfolio.Migrations
 
             migrationBuilder.InsertData(
                 table: "UserAgencies",
-                columns: new[] { "UserAgencyId", "AccountNo", "AgencyId", "ApplicationUserId", "UserId" },
-                values: new object[] { 1, 123123, 1, null, 0 });
+                columns: new[] { "UserAgencyId", "AccountNo", "AgencyId", "UserId" },
+                values: new object[] { 1, 123123, 1, "d816c9d6-be9a-47f1-9692-7df6559963cb" });
 
             migrationBuilder.InsertData(
                 table: "Transactions",
                 columns: new[] { "TransactionId", "BuyOrSell", "Date", "Qty", "Rate", "StockId", "UserAgencyId", "Value" },
-                values: new object[] { 1, true, new DateTime(2019, 6, 10, 13, 35, 53, 347, DateTimeKind.Local).AddTicks(3714), 10, 25.800000000000001, 1, 1, 260.0 });
+                values: new object[] { 1, true, new DateTime(2019, 6, 11, 12, 11, 27, 622, DateTimeKind.Local).AddTicks(437), 10, 25.800000000000001, 1, 1, 260.0 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Agencies_CountryId",
@@ -396,9 +393,9 @@ namespace MyPortfolio.Migrations
                 column: "AgencyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserAgencies_ApplicationUserId",
+                name: "IX_UserAgencies_UserId",
                 table: "UserAgencies",
-                column: "ApplicationUserId");
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

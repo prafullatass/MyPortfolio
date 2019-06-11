@@ -19,6 +19,6 @@ namespace MyPortfolio.Models
         public int AccountNo { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
         public Agency Agency { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
+        public ApplicationUser User { get; set; }
     }
 }

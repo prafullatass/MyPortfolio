@@ -225,9 +225,9 @@ namespace MyPortfolio.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "139ed871-45ed-4aa6-9a5b-6a4b79861ae0",
+                            Id = "d816c9d6-be9a-47f1-9692-7df6559963cb",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8bc311cf-d2bf-48f0-81b9-407101118f95",
+                            ConcurrencyStamp = "c265c625-654a-44bd-8da0-a5dc6aca2962",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             FirstName = "Admina",
@@ -235,9 +235,9 @@ namespace MyPortfolio.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHl0aeHDKyAgSzvRPFr5ezsW7UqqNp/GCj1GqCF15emmox/874F5R+1U8IObkGBMBw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKeQI4Owo+VGzZeIxDVu7dbknNccdlnsJqmVAG1puLUmgWuNYtLpfjlghcQMvUBArA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "cbd149c1-d250-44c7-ab56-c30fcb015ee7",
+                            SecurityStamp = "e290a9f3-3682-4bcf-958f-96ecc13cf3f3",
                             StreetAddress = "123 Infinity Way",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
@@ -358,7 +358,7 @@ namespace MyPortfolio.Migrations
                         {
                             TransactionId = 1,
                             BuyOrSell = true,
-                            Date = new DateTime(2019, 6, 11, 11, 13, 55, 477, DateTimeKind.Local).AddTicks(9304),
+                            Date = new DateTime(2019, 6, 11, 12, 11, 27, 622, DateTimeKind.Local).AddTicks(437),
                             Qty = 10,
                             Rate = 25.800000000000001,
                             StockId = 1,
@@ -378,8 +378,6 @@ namespace MyPortfolio.Migrations
 
                     b.Property<int>("AgencyId");
 
-                    b.Property<string>("ApplicationUserId");
-
                     b.Property<string>("UserId")
                         .IsRequired();
 
@@ -387,7 +385,7 @@ namespace MyPortfolio.Migrations
 
                     b.HasIndex("AgencyId");
 
-                    b.HasIndex("ApplicationUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserAgencies");
 
@@ -397,7 +395,7 @@ namespace MyPortfolio.Migrations
                             UserAgencyId = 1,
                             AccountNo = 123123,
                             AgencyId = 1,
-                            UserId = "139ed871-45ed-4aa6-9a5b-6a4b79861ae0"
+                            UserId = "d816c9d6-be9a-47f1-9692-7df6559963cb"
                         });
                 });
 
@@ -487,9 +485,10 @@ namespace MyPortfolio.Migrations
                         .HasForeignKey("AgencyId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MyPortfolio.Models.ApplicationUser", "ApplicationUser")
+                    b.HasOne("MyPortfolio.Models.ApplicationUser", "User")
                         .WithMany("UserAgencies")
-                        .HasForeignKey("ApplicationUserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

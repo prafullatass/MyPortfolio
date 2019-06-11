@@ -10,8 +10,8 @@ using MyPortfolio.Data;
 namespace MyPortfolio.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190610183553_Initialmigration")]
-    partial class Initialmigration
+    [Migration("20190611171128_FirstMigration")]
+    partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -209,14 +209,10 @@ namespace MyPortfolio.Migrations
 
                     b.Property<bool>("TwoFactorEnabled");
 
-                    b.Property<int>("UserId");
-
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
-
-                    b.HasAlternateKey("UserId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -231,9 +227,9 @@ namespace MyPortfolio.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "cb046eec-ac93-4101-aa19-9f9424909b73",
+                            Id = "d816c9d6-be9a-47f1-9692-7df6559963cb",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "af8c8064-b936-4ac6-b22e-1ae513dffe6e",
+                            ConcurrencyStamp = "c265c625-654a-44bd-8da0-a5dc6aca2962",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             FirstName = "Admina",
@@ -241,12 +237,11 @@ namespace MyPortfolio.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJYWQ3SZC/wWtp5BlgYATJruyu3OiwSSbPNbGvBE+rSRfmiHFYIMYnJIJ3as+42QmQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKeQI4Owo+VGzZeIxDVu7dbknNccdlnsJqmVAG1puLUmgWuNYtLpfjlghcQMvUBArA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "478b5ed4-9881-4c0d-a483-3007385c4f1f",
+                            SecurityStamp = "e290a9f3-3682-4bcf-958f-96ecc13cf3f3",
                             StreetAddress = "123 Infinity Way",
                             TwoFactorEnabled = false,
-                            UserId = 0,
                             UserName = "admin@admin.com"
                         });
                 });
@@ -365,7 +360,7 @@ namespace MyPortfolio.Migrations
                         {
                             TransactionId = 1,
                             BuyOrSell = true,
-                            Date = new DateTime(2019, 6, 10, 13, 35, 53, 347, DateTimeKind.Local).AddTicks(3714),
+                            Date = new DateTime(2019, 6, 11, 12, 11, 27, 622, DateTimeKind.Local).AddTicks(437),
                             Qty = 10,
                             Rate = 25.800000000000001,
                             StockId = 1,
@@ -385,15 +380,14 @@ namespace MyPortfolio.Migrations
 
                     b.Property<int>("AgencyId");
 
-                    b.Property<string>("ApplicationUserId");
-
-                    b.Property<int>("UserId");
+                    b.Property<string>("UserId")
+                        .IsRequired();
 
                     b.HasKey("UserAgencyId");
 
                     b.HasIndex("AgencyId");
 
-                    b.HasIndex("ApplicationUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserAgencies");
 
@@ -403,7 +397,7 @@ namespace MyPortfolio.Migrations
                             UserAgencyId = 1,
                             AccountNo = 123123,
                             AgencyId = 1,
-                            UserId = 0
+                            UserId = "d816c9d6-be9a-47f1-9692-7df6559963cb"
                         });
                 });
 
@@ -493,9 +487,10 @@ namespace MyPortfolio.Migrations
                         .HasForeignKey("AgencyId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MyPortfolio.Models.ApplicationUser", "ApplicationUser")
+                    b.HasOne("MyPortfolio.Models.ApplicationUser", "User")
                         .WithMany("UserAgencies")
-                        .HasForeignKey("ApplicationUserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
