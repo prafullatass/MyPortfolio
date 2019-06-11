@@ -16,6 +16,10 @@
                 <label asp-for="Agency.CountryId" class="control-label"></label>
                 <select asp-for="Agency.CountryId" class="form-control" asp-items="ViewBag.CountryId"></select>
             </div>
+            <button id="btnShowModal" type="button"
+                    class="btn btn-sm btn-default pull-left col-lg-11 button button4">
+                New Country
+            </button>
             <div class="form-group">
                 <label asp-for="Agency.Name" class="control-label"></label>
                 <input asp-for="Agency.Name" class="form-control" />

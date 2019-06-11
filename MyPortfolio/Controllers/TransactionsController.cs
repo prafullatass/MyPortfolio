@@ -52,8 +52,15 @@ namespace MyPortfolio.Controllers
         // GET: Transactions/Create
         public IActionResult Create()
         {
+            //make a list of Agency Name and Account no.
+            var agencyDetails = _context.UserAgencies.Include(ua => ua.Agency)
+                                    .Select(ua => new
+                                    {
+                                        UserAgencyId = ua.UserAgencyId,
+                                        desc = string.Format("{0}-- {1}", ua.Agency.Name, ua.AccountNo)
+                                    }).ToList();
             ViewData["StockId"] = new SelectList(_context.Stocks, "StockId", "Name");
-            ViewData["UserAgencyId"] = new SelectList(_context.UserAgencies, "UserAgencyId", "UserAgencyId");
+            ViewData["UserAgencyId"] = new SelectList(agencyDetails, "UserAgencyId", "desc");
             return View();
         }
 

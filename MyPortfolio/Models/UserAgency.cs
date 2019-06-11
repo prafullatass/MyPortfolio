@@ -9,7 +9,6 @@ namespace MyPortfolio.Models
     public class UserAgency
     {
         [Key]
-        [StringLength(30)]
         public int UserAgencyId { get; set; }
         [Required]
         public int AgencyId { get; set; }

@@ -65,7 +65,7 @@ namespace MyPortfolio.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Agency.AgencyId,Agency.CountryId,Agency.Name,UserAgency.AccountNo")] NewAgency newAgency)
+        public async Task<IActionResult> Create(NewAgency newAgency)
         {
             //if (ModelState.IsValid)
             {
