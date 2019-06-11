@@ -62,7 +62,7 @@ namespace MyPortfolio.Data
                  new UserAgency()
                  {
                      UserAgencyId = 1,
-                     UserId = user.UserId,
+                     UserId = user.Id,
                      AgencyId = 1,
                      AccountNo = 123123
                  });

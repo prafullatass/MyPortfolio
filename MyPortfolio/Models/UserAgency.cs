@@ -14,7 +14,7 @@ namespace MyPortfolio.Models
         [Required]
         public int AgencyId { get; set; }
         [Required]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         [Required]
         public int AccountNo { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }

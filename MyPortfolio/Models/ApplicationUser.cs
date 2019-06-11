@@ -13,8 +13,6 @@ namespace MyPortfolio.Models
         {
 
         }
-        [Key]
-        public int UserId { get; set; }
         [Required]
         [StringLength(30)]
         [Display(Name = "First Name")]
