@@ -2,22 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MyPortfolio.Data;
 using MyPortfolio.Models;
+using MyPortfolio.Models.AgenciesViewModel;
 
 namespace MyPortfolio.Controllers
 {
     public class AgenciesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public AgenciesController(ApplicationDbContext context)
+        public AgenciesController(ApplicationDbContext ctx,
+                          UserManager<ApplicationUser> userManager)
         {
-            _context = context;
+            _userManager = userManager;
+            _context = ctx;
         }
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+
 
         // GET: Agencies
         public async Task<IActionResult> Index()
@@ -48,8 +55,9 @@ namespace MyPortfolio.Controllers
         // GET: Agencies/Create
         public IActionResult Create()
         {
+            var model = new NewAgency();
             ViewData["CountryId"] = new SelectList(_context.Countries, "CountryId", "Name");
-            return View();
+            return View(model);
         }
 
         // POST: Agencies/Create
@@ -57,16 +65,26 @@ namespace MyPortfolio.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AgencyId,CountryId,Name")] Agency agency)
+        public async Task<IActionResult> Create([Bind("Agency.AgencyId,Agency.CountryId,Agency.Name,UserAgency.AccountNo")] NewAgency newAgency)
         {
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
             {
-                _context.Add(agency);
+                _context.Add(newAgency.Agency);
                 await _context.SaveChangesAsync();
+                // add data to userAgency table
+                UserAgency userAgency = new UserAgency();
+                var user = await GetCurrentUserAsync();
+
+                userAgency.AgencyId = newAgency.Agency.AgencyId;
+                userAgency.UserId = user.Id;
+                userAgency.AccountNo = newAgency.UserAgency.AccountNo;
+                _context.Add(userAgency);
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CountryId"] = new SelectList(_context.Countries, "CountryId", "Name", agency.CountryId);
-            return View(agency);
+            ViewData["CountryId"] = new SelectList(_context.Countries, "CountryId", "Name", newAgency.Agency.CountryId);
+            return View(newAgency);
         }
 
         // GET: Agencies/Edit/5

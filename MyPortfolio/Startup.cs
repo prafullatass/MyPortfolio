@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using MyPortfolio.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MyPortfolio.Models;
 
 namespace MyPortfolio
 {
@@ -38,7 +39,7 @@ namespace MyPortfolio
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddDefaultIdentity<ApplicationUser>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
