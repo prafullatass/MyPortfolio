@@ -12,17 +12,21 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    @Html.RadioButtonFor(model => model.BuyOrSell, true) Buy
-                    @Html.RadioButtonFor(model => model.BuyOrSell, false) Sell
-                </label>
+            <div class="form-group form-inline">
+                <label asp-for="UserAgencyId" class="control-label"></label> &thinsp;
+                <select asp-for="UserAgencyId" class="form-control" asp-items="ViewBag.UserAgencyId"></select>
             </div>
             <div class="form-group form-inline">
                 <label asp-for="StockId" class="control-label"></label>
                 <select asp-for="StockId" class="form-control" asp-items="ViewBag.StockId", id="StockId">
                     <option value=null>Choose stock</option>
                 </select>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    @Html.RadioButtonFor(model => model.BuyOrSell, true) Buy
+                    @Html.RadioButtonFor(model => model.BuyOrSell, false) Sell
+                </label>
             </div>
             <div class="form-group form-inline">
                 <label asp-for="Date" class="control-label"></label>
@@ -43,10 +47,6 @@
                 <label asp-for="Value" class="control-label"></label>
                 <input asp-for="Value" class="form-control" />
                 <span asp-validation-for="Value" class="text-danger"></span>
-            </div>
-            <div class="form-group form-inline">
-                <label asp-for="UserAgencyId" class="control-label"></label>
-                <select asp-for="UserAgencyId" class="form-control" asp-items="ViewBag.UserAgencyId"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

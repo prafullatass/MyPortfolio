@@ -163,6 +163,12 @@ namespace MyPortfolio.Controllers
             return _context.Stocks.Any(e => e.StockId == id);
         }
 
-        
+        public async Task<IActionResult> HomePage()
+        {
+            var applicationDbContext = _context.Stocks.Include(s => s.Country)
+                                        .Include(s => s.Sector)
+                                        .Include(s=>s.Transactions);
+            return View(await applicationDbContext.ToListAsync());
+        }
     }
 }
