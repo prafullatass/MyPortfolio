@@ -23,6 +23,7 @@ namespace MyPortfolio.Models
         public string LastName { get; set; }
         [Required]
         [StringLength(55)]
+        [Display(Name = "Address")]
         public string StreetAddress { get; set; }
         public virtual ICollection<UserAgency>  UserAgencies { get; set; }
     }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MyPortfolio.Data;
 using MyPortfolio.Models;
+using MyPortfolio.Models.StocksViewModel;
 
 namespace MyPortfolio.Controllers
 {
@@ -163,12 +164,32 @@ namespace MyPortfolio.Controllers
             return _context.Stocks.Any(e => e.StockId == id);
         }
 
-        public async Task<IActionResult> HomePage()
+        public async Task<IActionResult> AllStockReport()
         {
-            var applicationDbContext = _context.Stocks.Include(s => s.Country)
+            ListOfStocks listOfStock = new ListOfStocks();
+            listOfStock.Stocks = await _context.Stocks.Include(s => s.Country)
                                         .Include(s => s.Sector)
-                                        .Include(s=>s.Transactions);
-            return View(await applicationDbContext.ToListAsync());
+                                        .Include(s=>s.Transactions)
+                                        .Distinct().ToListAsync();
+
+            foreach(Stock st in listOfStock.Stocks)
+            {
+                foreach(Transaction t in st.Transactions)
+                {
+                    if (t.BuyOrSell)
+                    {
+                        double total = st.TotalQty * st.AvarageRate;
+                        total = total + (t.Qty * t.Rate);
+                        st.TotalQty += t.Qty;
+                        st.AvarageRate = total / st.TotalQty;
+                    }
+                    else
+                    {
+                        st.TotalQty -= t.Qty;
+                    }
+                }
+            }
+            return View(listOfStock);
         }
     }
 }

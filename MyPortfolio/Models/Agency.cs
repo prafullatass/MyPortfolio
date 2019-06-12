@@ -14,6 +14,7 @@ namespace MyPortfolio.Models
         public int CountryId { get; set; }
         [Required]
         [StringLength(30)]
+        [Display(Name = "Agency")]
         public string Name { get; set; }
         public Country Country { get; set; }
         public virtual ICollection<UserAgency> UserAgencies { get; set; }

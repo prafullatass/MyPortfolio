@@ -1,0 +1,65 @@
+﻿@model  MyPortfolio.Models.StocksViewModel.ListOfStocks
+@{
+ViewData["Title"]="Portfolio" ;
+}
+
+<h1>PortFolio</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Stocks[0].Name)
+
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stocks[0].Ticker)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stocks[0].Country.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stocks[0].Sector.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stocks[0].TotalQty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stocks[0].AvarageRate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Stocks) {
+    if (item.TotalQty != 0)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ticker)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Country.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sector.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalQty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AvarageRate)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.StockId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.StockId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.StockId">Delete</a>
+            </td>
+        </tr>
+    }
+}
+    </tbody>
+</table>
