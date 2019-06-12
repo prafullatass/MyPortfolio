@@ -162,5 +162,7 @@ namespace MyPortfolio.Controllers
         {
             return _context.Stocks.Any(e => e.StockId == id);
         }
+
+        
     }
 }

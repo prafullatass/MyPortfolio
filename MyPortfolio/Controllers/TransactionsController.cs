@@ -56,11 +56,11 @@ namespace MyPortfolio.Controllers
             var agencyDetails = _context.UserAgencies.Include(ua => ua.Agency)
                                     .Select(ua => new
                                     {
-                                        UserAgencyId = ua.UserAgencyId,
+                                        userAgencyId = ua.UserAgencyId,
                                         desc = string.Format("{0}-- {1}", ua.Agency.Name, ua.AccountNo)
                                     }).ToList();
-            ViewData["StockId"] = new SelectList(_context.Stocks, "StockId", "Name");
-            ViewData["UserAgencyId"] = new SelectList(agencyDetails, "UserAgencyId", "desc");
+            //ViewData["StockId"] = new SelectList(_context.Stocks, "StockId", "Name");
+            ViewData["UserAgencyId"] = new SelectList(agencyDetails, "userAgencyId", "desc");
             return View();
         }
 
@@ -172,5 +172,13 @@ namespace MyPortfolio.Controllers
         {
             return _context.Transactions.Any(e => e.TransactionId == id);
         }
+        public List<Stock> GetStocksFromUserAgencyId(int _id)
+        {
+            UserAgency ua = _context.UserAgencies.Include(s => s.Agency).First(s => s.UserAgencyId == _id);
+            //Stock stock = _context.Stocks.Find(ua.Agency.CountryId);
+            List<Stock> stocks = _context.Stocks.Where(s => s.CountryId == ua.Agency.CountryId).ToList();
+            return stocks;
+        }
     }
 }
+

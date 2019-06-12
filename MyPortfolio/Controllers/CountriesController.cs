@@ -149,5 +149,6 @@ namespace MyPortfolio.Controllers
         {
             return _context.Countries.Any(e => e.CountryId == id);
         }
+
     }
 }
