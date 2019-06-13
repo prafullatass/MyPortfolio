@@ -13,12 +13,12 @@ using MyPortfolio.Models.AgenciesViewModel;
 
 namespace MyPortfolio.Controllers
 {
-    public class AgenciesController : Controller
+    public class UserAgenciesController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public AgenciesController(ApplicationDbContext ctx,
+        public UserAgenciesController(ApplicationDbContext ctx,
                           UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
@@ -26,19 +26,19 @@ namespace MyPortfolio.Controllers
         }
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
-
-        // GET: Agencies
         [Authorize]
+        // GET: UserAgencies
         public async Task<IActionResult> Index()
         {
             var user = await GetCurrentUserAsync();
-            var applicationDbContext = _context.Agencies
-                                                .Include(a => a.Country)
-                                                .Include(a => a.UserAgencies);
+            var applicationDbContext = _context.UserAgencies
+                                        .Include(u => u.Agency)
+                                        .Include(u => u.User)
+                                        .Where(u => u.UserId == user.Id);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Agencies/Details/5
+        // GET: UserAgencies/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -46,53 +46,52 @@ namespace MyPortfolio.Controllers
                 return NotFound();
             }
 
-            var agency = await _context.Agencies
-                .Include(a => a.Country)
-                .FirstOrDefaultAsync(m => m.AgencyId == id);
-            if (agency == null)
+            var userAgency = await _context.UserAgencies
+                .Include(u => u.Agency)
+                .Include(u => u.User)
+                .FirstOrDefaultAsync(m => m.UserAgencyId == id);
+            if (userAgency == null)
             {
                 return NotFound();
             }
 
-            return View(agency);
+            return View(userAgency);
         }
 
-        // GET: Agencies/Create
+        // GET: UserAgencies/Create
         public IActionResult Create()
         {
-            var model = new NewAgency();
             ViewData["CountryId"] = new SelectList(_context.Countries, "CountryId", "Name");
-            return View(model);
+            ViewData["AgencyId"] = new SelectList(_context.Agencies, "AgencyId", "Name");
+            return View();
         }
 
-        // POST: Agencies/Create
+        // POST: UserAgencies/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(NewAgency newAgency)
         {
-            //if (ModelState.IsValid)
+           
+            var user = await GetCurrentUserAsync();
+            UserAgency userAgency = newAgency.UserAgency;
+            userAgency.AgencyId = newAgency.Agency.AgencyId;
+            userAgency.UserId = user.Id;
+            ModelState.Remove("UserAgency.UserId");
+            ModelState.Remove("Agency.Name");
+            if (ModelState.IsValid)
             {
-                _context.Add(newAgency.Agency);
-                await _context.SaveChangesAsync();
-                // add data to userAgency table
-                UserAgency userAgency = new UserAgency();
-                var user = await GetCurrentUserAsync();
-
-                userAgency.AgencyId = newAgency.Agency.AgencyId;
-                userAgency.UserId = user.Id;
-                userAgency.AccountNo = newAgency.UserAgency.AccountNo;
                 _context.Add(userAgency);
                 await _context.SaveChangesAsync();
-
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CountryId"] = new SelectList(_context.Countries, "CountryId", "Name", newAgency.Agency.CountryId);
-            return View(newAgency);
+            ViewData["AgencyId"] = new SelectList(_context.Agencies, "AgencyId", "Name", userAgency.AgencyId);
+            ViewData["UserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", userAgency.UserId);
+            return View(userAgency);
         }
 
-        // GET: Agencies/Edit/5
+        // GET: UserAgencies/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -100,23 +99,24 @@ namespace MyPortfolio.Controllers
                 return NotFound();
             }
 
-            var agency = await _context.Agencies.FindAsync(id);
-            if (agency == null)
+            var userAgency = await _context.UserAgencies.FindAsync(id);
+            if (userAgency == null)
             {
                 return NotFound();
             }
-            ViewData["CountryId"] = new SelectList(_context.Countries, "CountryId", "Name", agency.CountryId);
-            return View(agency);
+            ViewData["AgencyId"] = new SelectList(_context.Agencies, "AgencyId", "Name", userAgency.AgencyId);
+            ViewData["UserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", userAgency.UserId);
+            return View(userAgency);
         }
 
-        // POST: Agencies/Edit/5
+        // POST: UserAgencies/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AgencyId,CountryId,Name")] Agency agency)
+        public async Task<IActionResult> Edit(int id, [Bind("UserAgencyId,AgencyId,UserId,AccountNo")] UserAgency userAgency)
         {
-            if (id != agency.AgencyId)
+            if (id != userAgency.UserAgencyId)
             {
                 return NotFound();
             }
@@ -125,12 +125,12 @@ namespace MyPortfolio.Controllers
             {
                 try
                 {
-                    _context.Update(agency);
+                    _context.Update(userAgency);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AgencyExists(agency.AgencyId))
+                    if (!UserAgencyExists(userAgency.UserAgencyId))
                     {
                         return NotFound();
                     }
@@ -141,11 +141,12 @@ namespace MyPortfolio.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CountryId"] = new SelectList(_context.Countries, "CountryId", "Name", agency.CountryId);
-            return View(agency);
+            ViewData["AgencyId"] = new SelectList(_context.Agencies, "AgencyId", "Name", userAgency.AgencyId);
+            ViewData["UserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", userAgency.UserId);
+            return View(userAgency);
         }
 
-        // GET: Agencies/Delete/5
+        // GET: UserAgencies/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -153,31 +154,38 @@ namespace MyPortfolio.Controllers
                 return NotFound();
             }
 
-            var agency = await _context.Agencies
-                .Include(a => a.Country)
-                .FirstOrDefaultAsync(m => m.AgencyId == id);
-            if (agency == null)
+            var userAgency = await _context.UserAgencies
+                .Include(u => u.Agency)
+                .Include(u => u.User)
+                .FirstOrDefaultAsync(m => m.UserAgencyId == id);
+            if (userAgency == null)
             {
                 return NotFound();
             }
 
-            return View(agency);
+            return View(userAgency);
         }
 
-        // POST: Agencies/Delete/5
+        // POST: UserAgencies/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var agency = await _context.Agencies.FindAsync(id);
-            _context.Agencies.Remove(agency);
+            var userAgency = await _context.UserAgencies.FindAsync(id);
+            _context.UserAgencies.Remove(userAgency);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AgencyExists(int id)
+        private bool UserAgencyExists(int id)
         {
-            return _context.Agencies.Any(e => e.AgencyId == id);
+            return _context.UserAgencies.Any(e => e.UserAgencyId == id);
+        }
+
+        public List<Agency> GetCountrysAgencies (int _id)
+        {
+            List<Agency> agencies = _context.Agencies.Where(s => s.CountryId == _id).ToList();
+            return agencies;
         }
     }
 }
