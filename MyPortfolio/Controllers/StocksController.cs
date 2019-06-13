@@ -185,7 +185,7 @@ namespace MyPortfolio.Controllers
                         double total = st.TotalQty * st.AvarageRate;
                         total = total + (t.Qty * t.Rate);
                         st.TotalQty += t.Qty;
-                        st.AvarageRate = total / st.TotalQty;
+                        st.AvarageRate = Math.Round((total / st.TotalQty) * 100) /100;
                     }
                     else
                     {

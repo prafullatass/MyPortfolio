@@ -35,7 +35,8 @@ namespace MyPortfolio.Controllers
                                         .Include(t => t.Stock)
                                         .Include(t => t.UserAgency)
                                             .ThenInclude(ua => ua.Agency)
-                                        .Where(t => t.UserAgency.UserId == user.Id);
+                                        .Where(t => t.UserAgency.UserId == user.Id)
+                                        .OrderByDescending(t => t.Date);
             return View(await applicationDbContext.ToListAsync());
         }
 

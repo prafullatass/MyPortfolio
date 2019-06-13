@@ -4,6 +4,7 @@ ViewData["Title"]="Portfolio" ;
 }
 
 <h1>PortFolio</h1>
+<h5 class="font-weight-light font-italic"> Date : @DateTime.Now</h5>
 
 <table class="table">
     <thead>
@@ -27,13 +28,17 @@ ViewData["Title"]="Portfolio" ;
             <th>
                 @Html.DisplayNameFor(model => model.Stocks[0].AvarageRate)
             </th>
+            <th>
+                    Investment
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Stocks) {
-    if (item.TotalQty != 0)
-    {
+        @foreach (var item in Model.Stocks)
+        {
+            if (item.TotalQty != 0)
+            {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -47,19 +52,22 @@ ViewData["Title"]="Portfolio" ;
             <td>
                 @Html.DisplayFor(modelItem => item.Sector.Name)
             </td>
-            <td>
+            <td class="text-right" style="width : 100px;">
                 @Html.DisplayFor(modelItem => item.TotalQty)
             </td>
-            <td>
+            <td class="text-right" style="width : 130px;">
                 @Html.DisplayFor(modelItem => item.AvarageRate)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.StockId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.StockId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.StockId">Delete</a>
+            <td class="text-right font-weight-bold" style="width : 110px;">
+                @(item.AvarageRate * item.TotalQty)
             </td>
         </tr>
-    }
-}
+            }
+        }
     </tbody>
+    <tfoot>
+        <tr>
+            <td class="font-weight-bold">Total</td>
+            //<td class="font-weight-bold float-lg-right">@Model.Stocks.GroupBy(S => S.CountryId).Sum(s => (s.TotalQty * s.AvarageRate))</td>
+        </tr>
 </table>

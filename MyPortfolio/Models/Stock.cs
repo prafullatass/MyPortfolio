@@ -32,7 +32,7 @@ namespace MyPortfolio.Models
         [Display(Name = "Avarage Rate")]
         public double AvarageRate { get; set; }
         [NotMapped]
-        [Display(Name = "Total Quantity")]
+        [Display(Name = "Quantity")]
         public int TotalQty { get; set; }
     }
 }
