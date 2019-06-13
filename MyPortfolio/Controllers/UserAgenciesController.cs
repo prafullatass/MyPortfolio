@@ -62,7 +62,6 @@ namespace MyPortfolio.Controllers
         public IActionResult Create()
         {
             ViewData["CountryId"] = new SelectList(_context.Countries, "CountryId", "Name");
-            ViewData["AgencyId"] = new SelectList(_context.Agencies, "AgencyId", "Name");
             return View();
         }
 
@@ -73,9 +72,15 @@ namespace MyPortfolio.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(NewAgency newAgency)
         {
-           
-            var user = await GetCurrentUserAsync();
             UserAgency userAgency = newAgency.UserAgency;
+            if (newAgency.Agency.AgencyId == 0)
+            {
+                ViewBag.Message = string.Format("Please select an Agency !");
+
+                ViewData["CountryId"] = new SelectList(_context.Countries, "CountryId", "Name");
+                return View(newAgency);
+            }
+            var user = await GetCurrentUserAsync();
             userAgency.AgencyId = newAgency.Agency.AgencyId;
             userAgency.UserId = user.Id;
             ModelState.Remove("UserAgency.UserId");
@@ -86,9 +91,8 @@ namespace MyPortfolio.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AgencyId"] = new SelectList(_context.Agencies, "AgencyId", "Name", userAgency.AgencyId);
-            ViewData["UserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", userAgency.UserId);
-            return View(userAgency);
+            ViewData["CountryId"] = new SelectList(_context.Countries, "CountryId", "Name");
+            return View(newAgency);
         }
 
         // GET: UserAgencies/Edit/5
