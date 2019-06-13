@@ -24,7 +24,7 @@ namespace MyPortfolio.Models
         [Display(Name = "Value")]
         public Double Value { get; set; }
         [Required]
-        [Display(Name = "Buy Or Sell")]
+        [Display(Name = "Action")]
         public Boolean BuyOrSell { get; set; }
         public int UserAgencyId { get; set; }
 

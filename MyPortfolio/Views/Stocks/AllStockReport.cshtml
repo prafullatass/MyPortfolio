@@ -1,12 +1,12 @@
 ﻿@model  MyPortfolio.Models.StocksViewModel.ListOfStocks
 @{
-ViewData["Title"]="Portfolio" ;
+ViewData["Title"]="Holdings" ;
 }
 
-<h1>PortFolio</h1>
+<h1>Holdings</h1>
 <h5 class="font-weight-light font-italic"> Date : @DateTime.Now</h5>
 
-<table class="table">
+<table class="table table-bordered">
     <thead>
         <tr>
             <th>
@@ -29,9 +29,8 @@ ViewData["Title"]="Portfolio" ;
                 @Html.DisplayNameFor(model => model.Stocks[0].AvarageRate)
             </th>
             <th>
-                    Investment
+                    Original Value
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -58,16 +57,16 @@ ViewData["Title"]="Portfolio" ;
             <td class="text-right" style="width : 130px;">
                 @Html.DisplayFor(modelItem => item.AvarageRate)
             </td>
-            <td class="text-right font-weight-bold" style="width : 110px;">
+            <td class="text-right font-weight-bold" style="width : 130px;">
                 @(item.AvarageRate * item.TotalQty)
             </td>
         </tr>
             }
         }
     </tbody>
-    <tfoot>
+    @*<tfoot>
         <tr>
             <td class="font-weight-bold">Total</td>
-            //<td class="font-weight-bold float-lg-right">@Model.Stocks.GroupBy(S => S.CountryId).Sum(s => (s.TotalQty * s.AvarageRate))</td>
-        </tr>
+            <td class="font-weight-bold float-lg-right">@Model.Stocks.GroupBy(S => S.CountryId).Sum(s => (s.TotalQty * s.AvarageRate))</td>
+        </tr>*@
 </table>
