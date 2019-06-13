@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,9 +22,12 @@ namespace MyPortfolio.Controllers
         }
 
         // GET: Stocks
+        [Authorize]
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Stocks.Include(s => s.Country).Include(s => s.Sector);
+            var applicationDbContext = _context.Stocks
+                                                .Include(s => s.Country)
+                                                .Include(s => s.Sector);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -163,7 +167,7 @@ namespace MyPortfolio.Controllers
         {
             return _context.Stocks.Any(e => e.StockId == id);
         }
-
+        [Authorize]
         public async Task<IActionResult> AllStockReport()
         {
             ListOfStocks listOfStock = new ListOfStocks();

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,19 +15,27 @@ namespace MyPortfolio.Controllers
     public class TransactionsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public TransactionsController(ApplicationDbContext context)
+        public TransactionsController(ApplicationDbContext ctx,
+                          UserManager<ApplicationUser> userManager)
         {
-            _context = context;
+            _userManager = userManager;
+            _context = ctx;
         }
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+
 
         // GET: Transactions
+        [Authorize]
         public async Task<IActionResult> Index()
         {
+            var user = await GetCurrentUserAsync();
             var applicationDbContext = _context.Transactions
                                         .Include(t => t.Stock)
                                         .Include(t => t.UserAgency)
-                                            .ThenInclude(ua => ua.Agency);
+                                            .ThenInclude(ua => ua.Agency)
+                                        .Where(t => t.UserAgency.UserId == user.Id);
             return View(await applicationDbContext.ToListAsync());
         }
 
