@@ -34,5 +34,8 @@ namespace MyPortfolio.Models
         [NotMapped]
         [Display(Name = "Quantity")]
         public int TotalQty { get; set; }
+        [NotMapped]
+        [Display(Name = "Profit / Loss")]
+        public double Profit { get; set; }
     }
 }

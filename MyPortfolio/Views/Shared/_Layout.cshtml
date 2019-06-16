@@ -13,7 +13,7 @@
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
               crossorigin="anonymous"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"/>
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
     </environment>
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
@@ -30,19 +30,34 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
                         @*<li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Stocks" asp-action="AllStockReport">Home</a>
-                        </li>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Stocks" asp-action="AllStockReport">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </li>*@
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>*@
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Stocks" asp-action="Index">Stocks</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Report" asp-action="Index">Stocks</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Transactions" asp-action="Index">Transaction</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="UserAgencies" asp-action="Index">Agency</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Report" asp-action="ChartReport">Charts</a>
+
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle nav-link text-dark" data-toggle="dropdown" href="#">
+                                Reports
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Report" asp-action="AllStockReport">My Holdings</a></li>
+                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Report" asp-action="ProfitReport">Profit Report</a></li>
+                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Report" asp-action="TransactionReportperStock">Transaction Report</a></li>
+                            </ul>
                         </li>
                     </ul>
                 </div>

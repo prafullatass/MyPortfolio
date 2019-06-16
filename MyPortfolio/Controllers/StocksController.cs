@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ChartJS.Helpers.MVC;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -166,34 +167,6 @@ namespace MyPortfolio.Controllers
         private bool StockExists(int id)
         {
             return _context.Stocks.Any(e => e.StockId == id);
-        }
-        [Authorize]
-        public async Task<IActionResult> AllStockReport()
-        {
-            ListOfStocks listOfStock = new ListOfStocks();
-            listOfStock.Stocks = await _context.Stocks.Include(s => s.Country)
-                                        .Include(s => s.Sector)
-                                        .Include(s=>s.Transactions)
-                                        .Distinct().ToListAsync();
-
-            foreach(Stock st in listOfStock.Stocks)
-            {
-                foreach(Transaction t in st.Transactions)
-                {
-                    if (t.BuyOrSell)
-                    {
-                        double total = st.TotalQty * st.AvarageRate;
-                        total = total + (t.Qty * t.Rate);
-                        st.TotalQty += t.Qty;
-                        st.AvarageRate = Math.Round((total / st.TotalQty) * 100) /100;
-                    }
-                    else
-                    {
-                        st.TotalQty -= t.Qty;
-                    }
-                }
-            }
-            return View(listOfStock);
         }
     }
 }
