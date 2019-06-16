@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,5 +17,8 @@ namespace MyPortfolio.Models
         public string Name { get; set; }
 
         public virtual ICollection<Stock> Stocks { get; set; }
+        [NotMapped]
+        [Display(Name = "Total Investment")]
+        public double TotalValue { get; set; }
     }
 }

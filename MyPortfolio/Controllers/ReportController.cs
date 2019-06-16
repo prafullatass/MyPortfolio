@@ -89,31 +89,42 @@ namespace MyPortfolio.Controllers
         [Authorize]
         public async Task<IActionResult> SectorReport()
         {
-            ListOfStocks listOfStock = new ListOfStocks();
-            listOfStock.Stocks = await _context.Stocks.Include(s => s.Country)
-                                        .Include(s => s.Sector)
-                                        .Include(s => s.Transactions)
-                                        .Distinct().ToListAsync();
+            ////convert list of Igrouping to list
+            //ListOfStocks listOfStock = new ListOfStocks();
+            //IEnumerable<IGrouping<int, Stock>> groups = await _context.Stocks.Include(s => s.Country)
+            //                            .Include(s => s.Sector)
+            //                            .Include(s => s.Transactions)
+            //                            .GroupBy(s => s.SectorId)
+            //                            .ToListAsync();
+            //IEnumerable<Stock> Stocks = groups.SelectMany(group => group);
+            //listOfStock.Stocks = Stocks.ToList();
 
-            foreach (Stock st in listOfStock.Stocks)
+            List<Sector> listOfSector = new List<Sector>();
+            listOfSector = await _context.Sectors.Include(s => s.Stocks)
+                                .ThenInclude(s => s.Transactions)
+                                .ToListAsync();
+            foreach (Sector s in listOfSector)
             {
-                foreach (Transaction t in st.Transactions)
+                foreach (Stock st in s.Stocks)
                 {
-                    if (t.BuyOrSell)
+                    foreach (Transaction t in st.Transactions)
                     {
-                        double total = st.TotalQty * st.AvarageRate;
-                        total = total + (t.Qty * t.Rate);
-                        st.TotalQty += t.Qty;
-                        st.AvarageRate = Math.Round((total / st.TotalQty) * 100) / 100;
+                        if (t.BuyOrSell)
+                        {
+                            double total = st.TotalQty * st.AvarageRate;
+                            total = total + (t.Qty * t.Rate);
+                            st.TotalQty += t.Qty;
+                            st.AvarageRate = Math.Round((total / st.TotalQty) * 100) / 100;
+                        }
+                        else
+                        {
+                            st.TotalQty -= t.Qty;
+                        }
                     }
-                    else
-                    {
-                        st.Profit = st.Profit + (t.Qty * st.AvarageRate);
-                        st.TotalQty -= t.Qty;
-                    }
+                    s.TotalValue += st.TotalQty * st.AvarageRate;
                 }
             }
-            return View(listOfStock);
+            return View(listOfSector);
         }
 
         public async Task<IActionResult> ChartReport()
