@@ -19,8 +19,8 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3 navbar-fixed-top navbar-inverse">
+            <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Stocks" asp-action="AllStockReport">MyPortfolio</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -36,20 +36,20 @@
             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </li>*@
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Stocks" asp-action="Index">Stocks</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Stocks" asp-action="Index">Stocks</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Transactions" asp-action="Index">Transaction</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Transactions" asp-action="Index">Transaction</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="UserAgencies" asp-action="Index">Agency</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="UserAgencies" asp-action="Index">Agency</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Report" asp-action="ChartReport">Charts</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Report" asp-action="ChartReport">Charts</a>
 
                         </li>
                         <li class="dropdown">
-                            <a class="dropdown-toggle nav-link text-dark" data-toggle="dropdown" href="#">
+                            <a class="dropdown-toggle nav-link text-light" data-toggle="dropdown" href="#">
                                 Reports
                                 <span class="caret"></span>
                             </a>
