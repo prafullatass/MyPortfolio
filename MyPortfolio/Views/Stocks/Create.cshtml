@@ -9,6 +9,60 @@
 
 <h4>Stock</h4>
 <hr />
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <button id="btnShowModal" type="button"
+                    class="btn btn-sm btn-default pull-left col-lg-11 button button4">
+                New Country
+            </button>
+
+            <div class="modal fade" tabindex="-1" id="loginModal"
+                 data-keyboard="false" data-backdrop="static">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">
+                                ×
+                            </button>
+                            <h4 class="modal-title">New Country</h4>
+                        </div>
+                        <form action="/Countries/MakeACountry" method="POST" class="form-inline">
+                            <div class="modal-body">
+                                New Country :
+                                <input asp-for ="Name" class="form-control" placeholder="New Country Name"
+                                       type="text" name="CountryName" />
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary button button4">
+                                    Submit
+                                </button>
+                                <button type="button" id="btnHideModal" class="btn btn-danger button button4">
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
@@ -17,48 +71,7 @@
                 <label asp-for="CountryId" class="control-label"></label>
                 <select asp-for="CountryId" class="form-control" asp-items="ViewBag.CountryId"></select>
 
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <button id="btnShowModal" type="button"
-                                    class="btn btn-sm btn-default pull-left col-lg-11 button button4"> New Country </button>
-
-                            <div class="modal fade" tabindex="-1" id="loginModal"
-                                 data-keyboard="false" data-backdrop="static">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal">
-                                                ×
-                                            </button>
-                                            <h4 class="modal-title">New Country</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form class="form-inline">
-                                                New Country :
-                                                @using (Html.BeginForm("Add", "Country"))
-                                                {
-                                                    <input class="form-control" placeholder="New Country Name"
-                                                       type="text" name="CountryName" />
-                                                }
-                                                
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-primary button button4"
-                                                asp-controller="Country" asp-action="Add" name="CountryName">
-                                                    Submit
-                                            </button>
-                                            <button type="button" id="btnHideModal" class="btn btn-danger button button4">
-                                                Cancel
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                     </div>
-                </div>
+                
             </div>
                         <div class="form-group form-inline">
                             <label asp-for="SectorId" class="control-label"></label>

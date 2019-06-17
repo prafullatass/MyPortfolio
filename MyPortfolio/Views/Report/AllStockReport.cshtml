@@ -2,7 +2,11 @@
 @{
     ViewData["Title"] = "Holdings";
 }
-
+    <style>
+        thead {
+            background-color: papayawhip;
+        }
+    </style>
         <h1>Holdings</h1>
         <h5 class="font-weight-light font-italic"> Date : @DateTime.Now</h5>
 
@@ -55,10 +59,11 @@
                                 @Html.DisplayFor(modelItem => item.TotalQty)
                             </td>
                             <td class="text-right" style="width : 130px;">
-                                @Html.DisplayFor(modelItem => item.AvarageRate)
+                                 @Html.DisplayFor(modelItem => item.AvarageRate)
                             </td>
-                            <td class="text-right font-weight-bold" style="width : 130px;">
-                                @(item.AvarageRate * item.TotalQty)
+                            <td class="text-right font-weight-bold" style="width : 150px;">
+                                @String.Format("{0:0.00}",  (item.AvarageRate * item.TotalQty))
+
                             </td>
                         </tr>
                     }

@@ -14,12 +14,15 @@
         // Callback that creates and populates a data table,
         // instantiates the pie chart, passes in the data and
         // draws it.
+        //const jsonData = Html.Raw(JsonConvert.Serialize(ViewBag.Arr))
+        debugger
         function drawChart() {
 
             // Create the data table.
-                    var data = new google.visualization.arrayToDataTable(jsonData, false);
-                    data.addColumn('string', 'Topping');
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Topping');
             data.addColumn('number', 'Slices');
+            //data.addRow(jsonData);
             var a = document.getElementById("#myInput").data("myValue");
             for (var i = 0; i < a.length; i++) {
                 data.addRow([a[i][0], a[i][1]]);
@@ -27,7 +30,7 @@
                    // data.addRows(r);
                     // Set chart options
                     var options = {
-                        'title': 'How Much Pizza I Ate Last Night',
+                        'title': 'My Holdings',
                         'width': 400,
                         'height': 300
                     };

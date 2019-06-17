@@ -6,35 +6,60 @@
 
 <h1>Details</h1>
 
-<div>
     <h4>Stock</h4>
     <hr />
+<div>
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Ticker)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Ticker)
-        </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Country)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Country.Name)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Sector)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Sector.Name)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Ticker)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ticker)
+        </dd>
     </dl>
+    <hr/>
+        <h5>InvestMent in this Stock </h5>
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.AvarageRate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.AvarageRate)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.TotalQty)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.TotalQty)
+            </dd>
+            <dt class="col-sm-2">
+                Total Value
+            </dt>
+            <dd class="col-sm-10">
+
+                @( Model.TotalQty * Model.AvarageRate)
+            </dd>
+        </dl>
+    <button id="transactions" class="btn-info">Show Transactions</button>
+
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.StockId">Edit</a> |

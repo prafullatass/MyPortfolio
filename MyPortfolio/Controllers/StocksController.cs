@@ -43,7 +43,10 @@ namespace MyPortfolio.Controllers
             var stock = await _context.Stocks
                 .Include(s => s.Country)
                 .Include(s => s.Sector)
+                .Include(s => s.Transactions)
                 .FirstOrDefaultAsync(m => m.StockId == id);
+
+            stock = CaluculateTotals(stock);
             if (stock == null)
             {
                 return NotFound();
@@ -145,6 +148,7 @@ namespace MyPortfolio.Controllers
                 .Include(s => s.Country)
                 .Include(s => s.Sector)
                 .FirstOrDefaultAsync(m => m.StockId == id);
+            
             if (stock == null)
             {
                 return NotFound();
@@ -167,6 +171,26 @@ namespace MyPortfolio.Controllers
         private bool StockExists(int id)
         {
             return _context.Stocks.Any(e => e.StockId == id);
+        }
+
+        //calculate avarateRate & total Quantity for a stock
+        public Stock CaluculateTotals(Stock st)
+        {
+            foreach (Transaction t in st.Transactions)
+            {
+                if (t.BuyOrSell)
+                {
+                    double total = st.TotalQty * st.AvarageRate;
+                    total = total + (t.Qty * t.Rate);
+                    st.TotalQty += t.Qty;
+                    st.AvarageRate = Math.Round((total / st.TotalQty) * 100) / 100;
+                }
+                else
+                {
+                    st.TotalQty -= t.Qty;
+                }
+            }
+            return st;
         }
     }
 }
