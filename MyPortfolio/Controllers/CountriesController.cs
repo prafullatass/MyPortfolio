@@ -53,15 +53,17 @@ namespace MyPortfolio.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public async Task<IActionResult> MakeACountry([Bind("CountryId,Name")] Country country)
+        public async Task<IActionResult> MakeACountry(string CountryName)
         {
+            Country country = new Country();
+            country.Name = CountryName;
             if (ModelState.IsValid)
             {
                 _context.Add(country);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
             }
-            return View(country);
+            return RedirectToAction(nameof(StocksController.Create), "Stocks");
         }
 
         // GET: Countries/Edit/5
