@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -127,6 +128,10 @@ namespace MyPortfolio.Controllers
             return View(listOfSector);
         }
 
+        public IActionResult ChartReport2()
+        {
+            return View();
+        }
         public async Task<IActionResult> ChartReport()
         {
             List<double> ValueArray = new List<double>();
@@ -157,13 +162,19 @@ namespace MyPortfolio.Controllers
                 }
                 ValueArray.Add(st.AvarageRate * st.TotalQty);
                 NameArray.Add(st.Ticker);
+                List<object> array = new List<object>();
+               array.Add(st.Ticker);
+                array.Add(st.TotalQty);
+                Arr.Add(array);
                 //Arr[i] = [{v = st.Ticker;
                 // Arr[i] = [new { v= (st.AvarageRate * st.TotalQty)}];
             }
             ViewBag.ValueArray = ValueArray;
             ViewBag.NameArray = NameArray;
-            ViewBag.arr = Arr;
-            return View();
+            Arr = Arr.ToList();
+            ViewBag.Arr = Json(Arr);
+             return View();
+            //return Json(Arr);
         }
 
     }

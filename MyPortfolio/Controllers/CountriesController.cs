@@ -149,6 +149,16 @@ namespace MyPortfolio.Controllers
         {
             return _context.Countries.Any(e => e.CountryId == id);
         }
-
+        public async void Add (string name)
+        {
+            Country country = new Country();
+            country.Name = name;
+            if (ModelState.IsValid)
+            {
+                _context.Add(country);
+                await _context.SaveChangesAsync();
+            }
+            return;
+        }
     }
 }
