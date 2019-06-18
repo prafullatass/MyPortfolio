@@ -6,22 +6,10 @@
 
 <h1>Details</h1>
 
-    <h4>Stock</h4>
-    <hr />
+<h4>Stock</h4>
+<hr />
 <div>
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Country)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Country.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Sector)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Sector.Name)
-        </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
         </dt>
@@ -34,34 +22,103 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Ticker)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Country)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Country.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Sector)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Sector.Name)
+        </dd>
     </dl>
-    <hr/>
-        <h5>InvestMent in this Stock </h5>
-        <dl class="row">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.AvarageRate)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.AvarageRate)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.TotalQty)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.TotalQty)
-            </dd>
-            <dt class="col-sm-2">
-                Total Value
-            </dt>
-            <dd class="col-sm-10">
+    <hr />
+    <h5>Investment in this Stock ---- </h5>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AvarageRate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AvarageRate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TotalQty)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TotalQty)
+        </dd>
+        <dt class="col-sm-2">
+            Total Value
+        </dt>
+        <dd class="col-sm-10">
 
-                @( Model.TotalQty * Model.AvarageRate)
-            </dd>
-        </dl>
-    <button id="transactions" class="btn-info">Show Transactions</button>
+            @(Model.TotalQty * Model.AvarageRate)
+        </dd>
+    </dl>
 
+    <button id="transactions" class="btn-info">Show All Transactions</button>
+    <div id="transactionsDetails" style="display:none;">
+        <table class="table table-bordered hide">
+            <thead>
+                <tr>
+                    <th>
+                        Date
+                    </th>
+                    <th>
+                        Action
+                    </th>
+                    <th class="text-right" style="width : 150px;">
+                        Quantity 
+                    </th>
+                    <th class="text-right" style="width : 250px;">
+                        Rate
+                    </th>
+                    <th class="text-right" style="width : 250px;">
+                        Total Value
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Transactions)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Date)
+                        </td>
+                        <td>
+                            @if (item.BuyOrSell == true)
+                            {
+                                @Html.Label("Buy")
+                            }
+                            else
+                            {
+                                @Html.Label("Sell")
+                            }
+                        </td>
+                        <td class="text-right" style="width : 150px;">
+                            @Html.DisplayFor(modelItem => item.Qty)
+                        </td>
+                        <td class="text-right" style="width : 250px;">
+                            @String.Format("{0:0.00}", item.Rate)
+                        </td>
+                        <td class="text-right font-weight-bold" style="width : 250px;">
+                                @String.Format("{0:0.00}",item.Value)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model.StockId">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ToggleDiv");}
+}
+
