@@ -10,13 +10,14 @@
 <h4>Stock</h4>
 <hr />
 
-
+@*if(@ViewBag.CountryMsg != null)
+    alert("sfsf");*@
 
 <div class="container">
     <div class="row">
         <div class="col-xs-12">
             <button id="btnShowModal" type="button"
-                    class="btn btn-sm btn-default pull-left col-lg-11 button button4">
+                    class="btn btn-sm btn-default pull-left col-lg-11 button button4 btn-info" style="width:140px;">
                 New Country
             </button>
 
@@ -33,7 +34,7 @@
                         <form action="/Countries/MakeACountry" method="POST" class="form-inline">
                             <div class="modal-body">
                                 New Country :
-                                <input asp-for ="Name" class="form-control" placeholder="New Country Name"
+                                <input asp-for="Name" class="form-control" placeholder="New Country Name"
                                        type="text" name="CountryName" />
                             </div>
                             <div class="modal-footer">
@@ -41,6 +42,45 @@
                                     Submit
                                 </button>
                                 <button type="button" id="btnHideModal" class="btn btn-danger button button4">
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br />
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <button id="btnShowModalSector" type="button"
+                    class="btn btn-sm btn-default pull-left col-lg-11 button button4 btn-info" style="width:140px;">
+                New Sector
+            </button>
+
+            <div class="modal fade" tabindex="-1" id="sectorModal"
+                 data-keyboard="false" data-backdrop="static">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">New Sector </h4>
+                        </div>
+                        <form action="/Sectors/Create" method="POST" class="form-inline">
+                            <div class="modal-body">
+                                Sector Name :
+                                <input class="form-control" placeholder="New Sector Name"
+                                       type="text" name="SectorName" />
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary button button4">
+                                    Submit
+                                </button>
+                                <button type="button" id="btnHideModalSector" class="btn btn-danger button button4">
                                     Cancel
                                 </button>
                             </div>
@@ -62,36 +102,36 @@
 
 
 
-
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group form-inline">
                 <label asp-for="CountryId" class="control-label"></label>
-                <select asp-for="CountryId" class="form-control" asp-items="ViewBag.CountryId"></select>
-
-                
+                <select asp-for="CountryId" class="form-control" asp-items="ViewBag.CountryId">
+                    <option value="null">Choose Country ---- </option>
+                </select>
             </div>
-                        <div class="form-group form-inline">
-                            <label asp-for="SectorId" class="control-label"></label>
-                            <select asp-for="SectorId" class="form-control" asp-items="ViewBag.SectorId"></select>
-                            <button class="btn-group-sm">  +  </button>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="Name" class="control-label"></label>
-                            <input asp-for="Name" class="form-control" />
-                            <span asp-validation-for="Name" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="Ticker" class="control-label"></label>
-                            <input asp-for="Ticker" class="form-control" />
-                            <span asp-validation-for="Ticker" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <input type="submit" value="Create" class="btn btn-primary" />
-                        </div>
-</form>
+            <div class="form-group form-inline">
+                <label asp-for="SectorId" class="control-label"></label>
+                <select asp-for="SectorId" class="form-control" asp-items="ViewBag.SectorId">
+                    <option value="null">Choose Sector ---- </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ticker" class="control-label"></label>
+                <input asp-for="Ticker" class="form-control" />
+                <span asp-validation-for="Ticker" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
     </div>
 </div>
 
@@ -119,3 +159,18 @@
         });
     });
 </script>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#btnShowModalSector").click(function () {
+            $("#sectorModal").modal('show');
+        });
+
+        $("#btnHideModalSector").click(function () {
+            $("#sectorModal").modal('hide');
+        });
+    });
+</script>
+

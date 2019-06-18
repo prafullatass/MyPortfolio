@@ -46,7 +46,6 @@ namespace MyPortfolio.Controllers
                 .Include(s => s.Transactions)
                 .FirstOrDefaultAsync(m => m.StockId == id);
 
-            stock = CaluculateTotals(stock);
             if (stock == null)
             {
                 return NotFound();

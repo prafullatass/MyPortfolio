@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -177,6 +178,8 @@ namespace MyPortfolio.Controllers
             
 
             string json = JsonConvert.SerializeObject(Arr);
+            json = HttpUtility.JavaScriptStringEncode(json);
+            
             ViewBag.Arr = json;
              return View();
             //return Json(Arr);
