@@ -7,6 +7,51 @@
 <h1>Create</h1>
 
 <h4>Agency</h4>
+
+<div>
+    <button id="btnShowModal" type="button"
+            class="btn btn-sm btn-default pull-left col-lg-11 button button4 btn-info" style="width:140px;">
+        New Agency
+    </button>
+</div>
+
+
+@*modal for popup to add new country*@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="modal fade" tabindex="-1" id="loginModal"
+                 data-keyboard="false" data-backdrop="static">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">
+                                ×
+                            </button>
+                            <h4 class="modal-title">New Country</h4>
+                        </div>
+                        <form action="/Countries/MakeACountry" method="POST" class="form-inline">
+                            <div class="modal-body">
+                                New Country :
+                                <input class="form-control" placeholder="New Country Name"
+                                       type="text" name="CountryName" />
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary button button4">
+                                    Submit
+                                </button>
+                                <button type="button" id="btnHideModal" class="btn btn-danger button button4">
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -43,6 +88,6 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    
+
 
 }

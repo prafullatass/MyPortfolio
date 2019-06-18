@@ -169,6 +169,10 @@ namespace MyPortfolio.Controllers
             List<double> ValueArray = new List<double>();
             List<string> NameArray = new List<string>();
             List<List<object>> Arr = new List<List<object>>();
+            List<object> array1 = new List<object>();
+            array1.Add("ticker");
+            array1.Add("Qty");
+            Arr.Add(array1);
 
             ListOfStocks listOfStock = new ListOfStocks();
             listOfStock.Stocks = await _context.Stocks.Include(s => s.Country)
@@ -207,7 +211,6 @@ namespace MyPortfolio.Controllers
             
 
             string json = JsonConvert.SerializeObject(Arr);
-            json = HttpUtility.JavaScriptStringEncode(json);
             
             ViewBag.Arr = json;
              return View();

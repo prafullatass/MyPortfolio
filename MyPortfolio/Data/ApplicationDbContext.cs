@@ -46,7 +46,8 @@ namespace MyPortfolio.Data
               new Country()
               {
                   CountryId = 1,
-                  Name = "USA"
+                  Name = "USA",
+                  Currency = "$"
               });
 
 

@@ -56,7 +56,8 @@ namespace MyPortfolio.Migrations
                 {
                     CountryId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(maxLength: 30, nullable: false)
+                    Name = table.Column<string>(maxLength: 30, nullable: false),
+                    Currency = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -189,7 +190,8 @@ namespace MyPortfolio.Migrations
                     AgencyId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CountryId = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(maxLength: 30, nullable: false)
+                    Name = table.Column<string>(maxLength: 30, nullable: false),
+                    OpeningDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -234,7 +236,7 @@ namespace MyPortfolio.Migrations
                 name: "UserAgencies",
                 columns: table => new
                 {
-                    UserAgencyId = table.Column<int>(maxLength: 30, nullable: false)
+                    UserAgencyId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AgencyId = table.Column<int>(nullable: false),
                     UserId = table.Column<string>(nullable: false),
@@ -291,12 +293,12 @@ namespace MyPortfolio.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "StreetAddress", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "d816c9d6-be9a-47f1-9692-7df6559963cb", 0, "c265c625-654a-44bd-8da0-a5dc6aca2962", "admin@admin.com", true, "Admina", "Straytor", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEKeQI4Owo+VGzZeIxDVu7dbknNccdlnsJqmVAG1puLUmgWuNYtLpfjlghcQMvUBArA==", null, false, "e290a9f3-3682-4bcf-958f-96ecc13cf3f3", "123 Infinity Way", false, "admin@admin.com" });
+                values: new object[] { "2b669e73-cbd4-487b-8f66-109382f21b73", 0, "04dddde9-b438-4ce5-bd98-5b2bf0bd9212", "admin@admin.com", true, "Admina", "Straytor", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEBP8enoIPDYe3TM9tHwT7FivHbmBNamH0Q+v9Od5Bma/6xK7WjNt6Sdqd6SUPEG6xw==", null, false, "d4d33eaf-effd-4093-89de-aed2ec1aab65", "123 Infinity Way", false, "admin@admin.com" });
 
             migrationBuilder.InsertData(
                 table: "Countries",
-                columns: new[] { "CountryId", "Name" },
-                values: new object[] { 1, "USA" });
+                columns: new[] { "CountryId", "Currency", "Name" },
+                values: new object[] { 1, "$", "USA" });
 
             migrationBuilder.InsertData(
                 table: "Sectors",
@@ -305,8 +307,8 @@ namespace MyPortfolio.Migrations
 
             migrationBuilder.InsertData(
                 table: "Agencies",
-                columns: new[] { "AgencyId", "CountryId", "Name" },
-                values: new object[] { 1, 1, "RobinHood" });
+                columns: new[] { "AgencyId", "CountryId", "Name", "OpeningDate" },
+                values: new object[] { 1, 1, "RobinHood", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
 
             migrationBuilder.InsertData(
                 table: "Stocks",
@@ -316,12 +318,12 @@ namespace MyPortfolio.Migrations
             migrationBuilder.InsertData(
                 table: "UserAgencies",
                 columns: new[] { "UserAgencyId", "AccountNo", "AgencyId", "UserId" },
-                values: new object[] { 1, 123123, 1, "d816c9d6-be9a-47f1-9692-7df6559963cb" });
+                values: new object[] { 1, 123123, 1, "2b669e73-cbd4-487b-8f66-109382f21b73" });
 
             migrationBuilder.InsertData(
                 table: "Transactions",
                 columns: new[] { "TransactionId", "BuyOrSell", "Date", "Qty", "Rate", "StockId", "UserAgencyId", "Value" },
-                values: new object[] { 1, true, new DateTime(2019, 6, 11, 12, 11, 27, 622, DateTimeKind.Local).AddTicks(437), 10, 25.800000000000001, 1, 1, 260.0 });
+                values: new object[] { 1, true, new DateTime(2019, 6, 18, 13, 28, 50, 396, DateTimeKind.Local).AddTicks(4297), 10, 25.800000000000001, 1, 1, 260.0 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Agencies_CountryId",

@@ -10,7 +10,7 @@ using MyPortfolio.Data;
 namespace MyPortfolio.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190611171128_FirstMigration")]
+    [Migration("20190618182850_FirstMigration")]
     partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -147,6 +147,8 @@ namespace MyPortfolio.Migrations
                         .IsRequired()
                         .HasMaxLength(30);
 
+                    b.Property<DateTime>("OpeningDate");
+
                     b.HasKey("AgencyId");
 
                     b.HasIndex("CountryId");
@@ -158,7 +160,8 @@ namespace MyPortfolio.Migrations
                         {
                             AgencyId = 1,
                             CountryId = 1,
-                            Name = "RobinHood"
+                            Name = "RobinHood",
+                            OpeningDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -227,9 +230,9 @@ namespace MyPortfolio.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d816c9d6-be9a-47f1-9692-7df6559963cb",
+                            Id = "2b669e73-cbd4-487b-8f66-109382f21b73",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c265c625-654a-44bd-8da0-a5dc6aca2962",
+                            ConcurrencyStamp = "04dddde9-b438-4ce5-bd98-5b2bf0bd9212",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             FirstName = "Admina",
@@ -237,9 +240,9 @@ namespace MyPortfolio.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKeQI4Owo+VGzZeIxDVu7dbknNccdlnsJqmVAG1puLUmgWuNYtLpfjlghcQMvUBArA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBP8enoIPDYe3TM9tHwT7FivHbmBNamH0Q+v9Od5Bma/6xK7WjNt6Sdqd6SUPEG6xw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e290a9f3-3682-4bcf-958f-96ecc13cf3f3",
+                            SecurityStamp = "d4d33eaf-effd-4093-89de-aed2ec1aab65",
                             StreetAddress = "123 Infinity Way",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
@@ -251,6 +254,8 @@ namespace MyPortfolio.Migrations
                     b.Property<int>("CountryId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Currency");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -264,6 +269,7 @@ namespace MyPortfolio.Migrations
                         new
                         {
                             CountryId = 1,
+                            Currency = "$",
                             Name = "USA"
                         });
                 });
@@ -360,7 +366,7 @@ namespace MyPortfolio.Migrations
                         {
                             TransactionId = 1,
                             BuyOrSell = true,
-                            Date = new DateTime(2019, 6, 11, 12, 11, 27, 622, DateTimeKind.Local).AddTicks(437),
+                            Date = new DateTime(2019, 6, 18, 13, 28, 50, 396, DateTimeKind.Local).AddTicks(4297),
                             Qty = 10,
                             Rate = 25.800000000000001,
                             StockId = 1,
@@ -373,7 +379,6 @@ namespace MyPortfolio.Migrations
                 {
                     b.Property<int>("UserAgencyId")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(30)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AccountNo");
@@ -397,7 +402,7 @@ namespace MyPortfolio.Migrations
                             UserAgencyId = 1,
                             AccountNo = 123123,
                             AgencyId = 1,
-                            UserId = "d816c9d6-be9a-47f1-9692-7df6559963cb"
+                            UserId = "2b669e73-cbd4-487b-8f66-109382f21b73"
                         });
                 });
 

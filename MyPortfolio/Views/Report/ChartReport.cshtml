@@ -1,5 +1,5 @@
 ﻿<div id="chart_div">
-    <input type="text" id="myInput" data-myValue="@ViewBag.Arr" />
+    <
     </div>
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -14,26 +14,17 @@
         // Callback that creates and populates a data table,
         // instantiates the pie chart, passes in the data and
         // draws it.
-        const jsonData = Html.Raw(JsonConvert.Serialize(ViewBag.Arr))
-        debugger
         function drawChart() {
 
+            const json = @Html.Raw(ViewBag.Arr)
             // Create the data table.
-            var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Topping');
-            data.addColumn('number', 'Slices');
-            json= @(ViewBag.Arr).Replace(/ (&quot\;)/ g,"\"")
-            data.addRow(json);
-            //var a = document.getElementById("#myInput").data("myValue");
-            //for (var i = 0; i < a.length; i++) {
-            //    data.addRow([a[i][0], a[i][1]]);
-            //}
-                   // data.addRows(r);
+            var data = google.visualization.arrayToDataTable(json);
+            
                     // Set chart options
                     var options = {
                         'title': 'My Holdings',
-                        'width': 400,
-                        'height': 300
+                        'width': 600,
+                        'height': 600
                     };
 
                     // Instantiate and draw our chart, passing in some options.
@@ -45,25 +36,3 @@
 <div class="container">
     <div id="chart1"></div>
 </div>
-@*
-@section scripts{
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
-    <script>
-        google.charts.load('current', { 'packages': ['corechart'] });
-        google.charts.setOnLoadCallback(drawChart);
-
-        function drawChart() {
-            $.get('JsonData', function (jsonData) {
-                data = google.visualization.arrayToDataTable(jsonData, false);
-                var option = {
-                    title: "Line Chart",
-                    width: 800,
-                    height: 600
-                };
-                chart = new google.visualization.PieChart(document.getElementById('chart1'));
-                chart.draw(data, option);
-            })
-        }
-    </script>
-}*@

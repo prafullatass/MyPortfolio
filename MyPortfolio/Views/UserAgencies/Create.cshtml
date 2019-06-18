@@ -7,7 +7,57 @@
 <h1>Create</h1>
 
 <h4>UserAgency</h4>
+
+<div>
+    <button id="btnShowModal" type="button"
+            class="btn btn-sm btn-default pull-left col-lg-11 button button4 btn-info" style="width:140px;">
+        New Agency
+    </button>
+</div>
+
+
+@*modal for popup to add new country*@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="modal fade" tabindex="-1" id="loginModal"
+                 data-keyboard="false" data-backdrop="static">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">New Agency</h4>
+                        </div>
+                        <form action="/UserAgencies/MakeAAgency" method="POST" class="form-inline">
+                            <div class="modal-body">
+                                <div class="form-group">
+
+                                    <label  class="control-label"></label>
+                                    <select class="form-control" asp-items="ViewBag.CountryId" >
+                                        <option value="null">Select a country------------</option>
+                                    </select>
+                                </div>
+                                
+                                <input class="form-control" placeholder="New Agency Name"
+                                       type="text" />
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary button button4">
+                                    Submit
+                                </button>
+                                <button type="button" id="btnHideModal" class="btn btn-danger button button4">
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <hr />
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
@@ -53,3 +103,22 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     @{await Html.RenderPartialAsync("_AgencyPartial");}
 }
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
+
+</script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#btnShowModal").click(function () {
+            $("#loginModal").modal('show');
+        });
+
+        $("#btnHideModal").click(function () {
+            $("#loginModal").modal('hide');
+        });
+    });
+</script>
+

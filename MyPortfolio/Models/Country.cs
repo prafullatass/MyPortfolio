@@ -14,6 +14,7 @@ namespace MyPortfolio.Models
         [StringLength(30)]
         [Display(Name = "Country")]
         public string Name { get; set; }
+        public string Currency { get; set; }
         public virtual ICollection<Stock> Stocks { get; set; }
     }
 }
