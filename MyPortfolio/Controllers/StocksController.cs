@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ChartJS.Helpers.MVC;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -16,12 +17,17 @@ namespace MyPortfolio.Controllers
     public class StocksController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public StocksController(ApplicationDbContext context)
+        public StocksController(ApplicationDbContext ctx,
+                          UserManager<ApplicationUser> userManager)
         {
-            _context = context;
+            _userManager = userManager;
+            _context = ctx;
         }
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
+       
         // GET: Stocks
         [Authorize]
         public async Task<IActionResult> Index()
@@ -39,12 +45,16 @@ namespace MyPortfolio.Controllers
             {
                 return NotFound();
             }
-
+            var user = await GetCurrentUserAsync();
             var stock = await _context.Stocks
                 .Include(s => s.Country)
                 .Include(s => s.Sector)
                 .Include(s => s.Transactions)
+                    .ThenInclude(t => t.UserAgency)
                 .FirstOrDefaultAsync(m => m.StockId == id);
+
+            stock.Transactions = stock.Transactions.Where(t => t.UserAgency.UserId == user.Id).ToList();
+            //calculate stocks avg rate and total qty
             stock = CaluculateTotals(stock);
 
             if (stock == null)

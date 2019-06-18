@@ -27,6 +27,8 @@ namespace MyPortfolio.Controllers
             _userManager = userManager;
             _context = ctx;
         }
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+
         public IActionResult Index()
         {
             return View();
@@ -34,12 +36,18 @@ namespace MyPortfolio.Controllers
         [Authorize]
         public async Task<IActionResult> AllStockReport()
         {
+            var user = await GetCurrentUserAsync();
             ListOfStocks listOfStock = new ListOfStocks();
             listOfStock.Stocks = await _context.Stocks.Include(s => s.Country)
                                         .Include(s => s.Sector)
                                         .Include(s => s.Transactions)
+                                            .ThenInclude(t => t.UserAgency)
                                         .Distinct().ToListAsync();
-
+            //select transactions of the logged in user only
+            foreach (Stock st in listOfStock.Stocks)
+            {
+                st.Transactions = st.Transactions.Where(t => t.UserAgency.UserId == user.Id).ToList();
+            }
             foreach (Stock st in listOfStock.Stocks)
             {
                 foreach (Transaction t in st.Transactions)
@@ -63,11 +71,18 @@ namespace MyPortfolio.Controllers
         [Authorize]
         public async Task<IActionResult> ProfitReport()
         {
+            var user = await GetCurrentUserAsync();
             ListOfStocks listOfStock = new ListOfStocks();
             listOfStock.Stocks = await _context.Stocks.Include(s => s.Country)
                                         .Include(s => s.Sector)
                                         .Include(s => s.Transactions)
+                                            .ThenInclude(t => t.UserAgency)
                                         .Distinct().ToListAsync();
+            //select transactions of the logged in user only
+            foreach (Stock st in listOfStock.Stocks)
+            {
+                st.Transactions = st.Transactions.Where(t => t.UserAgency.UserId == user.Id).ToList();
+            }
 
             foreach (Stock st in listOfStock.Stocks)
             {
@@ -103,10 +118,24 @@ namespace MyPortfolio.Controllers
             //IEnumerable<Stock> Stocks = groups.SelectMany(group => group);
             //listOfStock.Stocks = Stocks.ToList();
 
+
+            var user = await GetCurrentUserAsync();
             List<Sector> listOfSector = new List<Sector>();
             listOfSector = await _context.Sectors.Include(s => s.Stocks)
                                 .ThenInclude(s => s.Transactions)
+                                    .ThenInclude(t => t.UserAgency)
                                 .ToListAsync();
+
+            //select transactions of the logged in user only
+            foreach (Sector s in listOfSector)
+            {
+                foreach (Stock st in s.Stocks)
+                {
+                    st.Transactions = st.Transactions.Where(t => t.UserAgency.UserId == user.Id).ToList();
+                }
+            }
+
+
             foreach (Sector s in listOfSector)
             {
                 foreach (Stock st in s.Stocks)

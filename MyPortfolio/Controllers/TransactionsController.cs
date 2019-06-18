@@ -61,10 +61,12 @@ namespace MyPortfolio.Controllers
         }
 
         // GET: Transactions/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            //make a list of Agency Name and Account no.
+            //make a list of Agency Name and Account no
+            var user = await GetCurrentUserAsync();
             var agencyDetails = _context.UserAgencies.Include(ua => ua.Agency)
+                                    .Where(ua => ua.UserId == user.Id)
                                     .Select(ua => new
                                     {
                                         userAgencyId = ua.UserAgencyId,
@@ -88,8 +90,18 @@ namespace MyPortfolio.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            var user = await GetCurrentUserAsync();
+            var agencyDetails = _context.UserAgencies.Include(ua => ua.Agency)
+                                    .Where(ua => ua.UserId == user.Id)
+                                    .Select(ua => new
+                                    {
+                                        userAgencyId = ua.UserAgencyId,
+                                        desc = string.Format("{0}-- {1}", ua.Agency.Name, ua.AccountNo)
+                                    }).ToList();
+            //ViewData["StockId"] = new SelectList(_context.Stocks, "StockId", "Name");
+            ViewData["UserAgencyId"] = new SelectList(agencyDetails, "userAgencyId", "desc");
             ViewData["StockId"] = new SelectList(_context.Stocks, "StockId", "Name", transaction.StockId);
-            ViewData["UserAgencyId"] = new SelectList(_context.UserAgencies, "UserAgencyId", "UserAgencyId", transaction.UserAgencyId);
+           // ViewData["UserAgencyId"] = new SelectList(_context.UserAgencies.Where(ua => ua.UserId == user.Id), "UserAgencyId", "UserAgencyId", transaction.UserAgencyId);
             return View(transaction);
         }
 
