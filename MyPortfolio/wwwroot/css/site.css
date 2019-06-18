@@ -76,8 +76,12 @@ body {
     /*color: white;*/
     text-decoration-color: none;
 }
-    .navbar > .active > a, .navbar > .active > a:focus, .navbar > .active > a:hover,
-    .navbar-inverse > .active > a, .navbar-inverse > .active > a:focus, .navbar-inverse > .active > a:hover {
-        background: gray !important;
-        color: white !important;
-    }
+.navbar > .active > a, .navbar > .active > a:focus, .navbar > .active > a:hover,
+.navbar-inverse > .active > a, .navbar-inverse > .active > a:focus, .navbar-inverse > .active > a:hover {
+    background: gray !important;
+    color: white !important;
+}
+
+.tab_10 {
+    margin-left : 20px;
+}

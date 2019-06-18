@@ -13,7 +13,7 @@ namespace MyPortfolio.Models
         public int SectorId { get; set; }
         [Required]
         [StringLength(30)]
-        [Display(Name = "Sector")]
+        [Display(Name = "Sector Name")]
         public string Name { get; set; }
 
         public virtual ICollection<Stock> Stocks { get; set; }

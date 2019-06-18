@@ -13,14 +13,23 @@
 @*if(@ViewBag.CountryMsg != null)
     alert("sfsf");*@
 
+@*buttons that popup modals*@
+<div>
+    <button id="btnShowModal" type="button"
+            class="btn btn-sm btn-default pull-left col-lg-11 button button4 btn-info" style="width:140px;">
+        New Country
+    </button>
+    <button id="btnShowModalSector" type="button"
+            class="btn btn-sm btn-default pull-left col-lg-11 button button4 btn-info" style="width:140px;">
+        New Sector
+    </button>
+</div>
+
+
+@*modal for popup to add new country*@
 <div class="container">
     <div class="row">
         <div class="col-xs-12">
-            <button id="btnShowModal" type="button"
-                    class="btn btn-sm btn-default pull-left col-lg-11 button button4 btn-info" style="width:140px;">
-                New Country
-            </button>
-
             <div class="modal fade" tabindex="-1" id="loginModal"
                  data-keyboard="false" data-backdrop="static">
                 <div class="modal-dialog modal-lg">
@@ -53,16 +62,13 @@
     </div>
 </div>
 
+<hr/>
 <br />
 
+@*modal for Sector*@
 <div class="container">
     <div class="row">
         <div class="col-xs-12">
-            <button id="btnShowModalSector" type="button"
-                    class="btn btn-sm btn-default pull-left col-lg-11 button button4 btn-info" style="width:140px;">
-                New Sector
-            </button>
-
             <div class="modal fade" tabindex="-1" id="sectorModal"
                  data-keyboard="false" data-backdrop="static">
                 <div class="modal-dialog modal-lg">
@@ -97,35 +103,30 @@
 
 
 
-
-
-
-
-
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group form-inline">
-                <label asp-for="CountryId" class="control-label"></label>
-                <select asp-for="CountryId" class="form-control" asp-items="ViewBag.CountryId">
-                    <option value="null">Choose Country ---- </option>
+            <div class="form-group form-inline row">
+                <label asp-for="Country.Name" class="control-label col-5 justify-content-start"></label>
+                <select asp-for="CountryId" class="form-control col-auto" asp-items="ViewBag.CountryId">
+                    <option value="null"> Choose Country ---- </option>
                 </select>
             </div>
-            <div class="form-group form-inline">
-                <label asp-for="SectorId" class="control-label"></label>
-                <select asp-for="SectorId" class="form-control" asp-items="ViewBag.SectorId">
-                    <option value="null">Choose Sector ---- </option>
+            <div class="form-group form-inline row">
+                <label asp-for="Sector.Name" class="control-label col-5 justify-content-start"></label>
+                <select asp-for="SectorId" class="form-control col-6" asp-items="ViewBag.SectorId">
+                    <option value="null"> Choose Sector ---- </option>
                 </select>
             </div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
+            <div class="form-group form-inline row">
+                <label class="control-label col-5 justify-content-start">Stock Name </label>
+                <input asp-for="Name" class="form-control  col-6" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Ticker" class="control-label"></label>
-                <input asp-for="Ticker" class="form-control" />
+            <div class="form-group form-inline row">
+                <label asp-for="Ticker" class="control-label col-5 justify-content-start"></label>
+                <input asp-for="Ticker" class="form-control col-6" />
                 <span asp-validation-for="Ticker" class="text-danger"></span>
             </div>
             <div class="form-group">

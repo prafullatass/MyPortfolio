@@ -12,7 +12,7 @@ namespace MyPortfolio.Models
         public int CountryId { get; set; }
         [Required]
         [StringLength(30)]
-        [Display(Name = "Country")]
+        [Display(Name = "Country Name")]
         public string Name { get; set; }
         public virtual ICollection<Stock> Stocks { get; set; }
     }
