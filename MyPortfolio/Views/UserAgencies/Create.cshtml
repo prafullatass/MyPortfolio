@@ -30,16 +30,15 @@
                         <form action="/UserAgencies/MakeAAgency" method="POST" class="form-inline">
                             <div class="modal-body">
                                 <div class="form-group">
-
                                     <label  class="control-label"></label>
-                                    <select class="form-control" asp-items="ViewBag.CountryId" >
+                                    <select class="form-control" asp-items="ViewBag.CountryId" name="CountryId">
                                         <option value="null">Select a country------------</option>
                                     </select>
                                 </div>
-                                
+                                <br />
                                 <input class="form-control" placeholder="New Agency Name"
-                                       type="text" />
-                            </div>
+                                       type="text" name="AgencyName"/>
+                                <br/>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary button button4">
                                     Submit
@@ -48,6 +47,7 @@
                                     Cancel
                                 </button>
                             </div>
+                                </div>
                         </form>
                     </div>
                 </div>

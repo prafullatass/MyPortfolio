@@ -191,5 +191,16 @@ namespace MyPortfolio.Controllers
             List<Agency> agencies = _context.Agencies.Where(s => s.CountryId == _id).ToList();
             return agencies;
         }
+
+        public async Task<IActionResult> MakeAAgency (string AgencyName, int CountryId)
+        {
+            Agency agency = new Agency();
+            agency.Name = AgencyName;
+            agency.CountryId = CountryId;
+            agency.OpeningDate = DateTime.Now;
+            _context.Add(agency);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(UserAgenciesController.Create), "UserAgencies");
+        }
     }
 }
