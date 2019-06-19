@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 
 namespace MyPortfolio.Models.StocksViewModel
 {
-    public class ListOfStocks
+    public class TotalValue
     {
-        public List<Stock> Stocks { get; set; }
-        public List<TotalValue> TotalValues { get; set; }
+        public string CountryName {get;set;}
+        public string Currnecy { get; set; }
+        public double Total { get; set; }
     }
 }
