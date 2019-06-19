@@ -10,7 +10,7 @@
         <h1>Holdings</h1>
         <h5 class="font-weight-light font-italic"> Date : @DateTime.Now</h5>
 
-        <table class="table table-bordered">
+        <table class="table table-bordered table-hover">
             <thead class="listHeader">
                 <tr>
                     <th>
@@ -20,68 +20,67 @@
                         @Html.DisplayNameFor(model => model.Stocks[0].Ticker)
                     </th>
                     <th>
-                    @Html.ActionLink(@Html.DisplayNameFor(model => model.Stocks[0].Country.Name), "AllStockReport", new { _orderBy = "Country", _sortDirection = ViewData["CountryDirection"] })
-                    </th >
+                        @Html.ActionLink(@Html.DisplayNameFor(model => model.Stocks[0].Country.Name), "AllStockReport", new { _orderBy = "Country", _sortDirection = ViewData["CountryDirection"] })
+                    </th>
 
                     <th>
-                    @Html.ActionLink(@Html.DisplayNameFor(model => model.Stocks[0].Sector.Name), "AllStockReport", new { _orderBy = "Sector", _sortDirection = ViewData["SectorDirection"] })
-                    </th >
+                        @Html.ActionLink(@Html.DisplayNameFor(model => model.Stocks[0].Sector.Name), "AllStockReport", new { _orderBy = "Sector", _sortDirection = ViewData["SectorDirection"] })
+                    </th>
 
                     <th>
-                    @Html.DisplayNameFor(model => model.Stocks[0].TotalQty)
-                    </th >
+                        @Html.DisplayNameFor(model => model.Stocks[0].TotalQty)
+                    </th>
 
                     <th>
-                    @Html.DisplayNameFor(model => model.Stocks[0].AvarageRate)
-                    </th >
+                        @Html.DisplayNameFor(model => model.Stocks[0].AvarageRate)
+                    </th>
 
                     <th>
-                    Original Value
-                    </th >
+                        Original Value
+                    </th>
                 </tr>
-             </thead>
-        <tbody>
+            </thead>
+            <tbody>
                 @foreach (var item in Model.Stocks)
                 {
                     if (item.TotalQty != 0)
                     {
                         <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Ticker)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Country.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Sector.Name)
-                        </td>
-                        <td class="text-right" style="width : 100px;">
-                            @Html.DisplayFor(modelItem => item.TotalQty)
-                        </td>
-                        <td class="text-right" style="width : 130px;">
-                            @String.Format("{0:0.00}", item.AvarageRate)
-                        </td>
-                        <td class="text-right font-weight-bold" style="width : 150px;">
-                            @item.Country.Currency
-                            @String.Format("{0:0.00}", (item.AvarageRate* item.TotalQty))
-                        </td>
-                </tr>
-            }
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Ticker)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Country.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Sector.Name)
+                            </td>
+                            <td class="text-right" style="width : 100px;">
+                                @Html.DisplayFor(modelItem => item.TotalQty)
+                            </td>
+                            <td class="text-right" style="width : 130px;">
+                                @String.Format("{0:0.00}", item.AvarageRate)
+                            </td>
+                            <td class="text-right font-weight-bold" style="width : 150px;">
+                                @item.Country.Currency
+                                @String.Format("{0:0.00}", (item.AvarageRate * item.TotalQty))
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+    </table>  
+        @foreach (var item in Model.TotalValues)
+        {
+<div class="" >
+    <p class="font-weight-bold">
+        @Html.DisplayFor(modelItem => item.CountryName)
+        @Html.DisplayFor(modelItem => item.Currnecy)
+        @Html.DisplayFor(modelItem => item.Total)
+    </p>
+</div>
         }
-    </tbody>
-            
-        <tfoot class="float-right border-0">
-            @foreach (var item in Model.TotalValues)
-            {
 
-             <tr class="col-10">
-                <td class="font-weight-bold">@Html.DisplayFor(modelItem => item.CountryName) -- </td>
-                <td class="font-weight-bold">@Html.DisplayFor(modelItem => item.Currnecy)</td>
-                <td class="font-weight-bold">@Html.DisplayFor(modelItem => item.Total)</td>
-            </tr>
-            }
-        </tfoot>
-</table>

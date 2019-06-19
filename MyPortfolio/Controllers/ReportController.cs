@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MyPortfolio.Data;
 using MyPortfolio.Models;
@@ -211,8 +212,16 @@ namespace MyPortfolio.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> ChartReport()
+        public async Task<IActionResult> ChartReport(int? _id)
         {
+
+            var user = await GetCurrentUserAsync();
+            List<Country> list = _context.Countries.ToList();
+            ViewData["CountryId"] = new SelectList(_context.Countries, "CountryId", "Name");
+            if (_id == null)
+            {
+                _id = list[0].CountryId;
+            }
             List<List<object>> Arr = new List<List<object>>();
             List<object> array1 = new List<object>();
             array1.Add("ticker");
@@ -224,9 +233,9 @@ namespace MyPortfolio.Controllers
                                         .Include(s => s.Sector)
                                         .Include(s => s.Transactions)
                                             .ThenInclude(t=>t.UserAgency)
+                                        .Where(s => s.CountryId == _id)
                                         .Distinct().ToListAsync();
 
-            var user = await GetCurrentUserAsync();
             foreach (Stock st in listOfStock.Stocks)
             {
                 st.Transactions = st.Transactions.Where(t => t.UserAgency.UserId == user.Id).ToList();

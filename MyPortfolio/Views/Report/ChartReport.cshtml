@@ -1,7 +1,15 @@
-﻿<div id="chart_div">
-    <
+﻿<form action="/Report/ChartReport" method="POST" class="form ">
+    <div class="form-group form-inline row">
+        <label>Select Country</label>
+        <select name="_id" class="form-control col-auto" asp-items="ViewBag.CountryId" onchange=""></select>
     </div>
+    <button type="submit" class="btn btn-primary button button4">
+        Submit
+    </button>
+</form>
+    <div id="chart_div">
 
+    </div>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
 
@@ -19,7 +27,7 @@
             const json = @Html.Raw(ViewBag.Arr)
             // Create the data table.
             var data = google.visualization.arrayToDataTable(json);
-            
+
                     // Set chart options
                     var options = {
                         'title': 'My Holdings',
@@ -33,6 +41,6 @@
         }
     </script>
 
-<div class="container">
-    <div id="chart1"></div>
-</div>
+    <div class="container">
+        <div id="chart1"></div>
+    </div>
