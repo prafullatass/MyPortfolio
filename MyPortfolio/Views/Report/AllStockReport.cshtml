@@ -14,64 +14,78 @@
             <thead class="listHeader">
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.Stocks[0].Name)
-
+                        @Html.ActionLink(@Html.DisplayNameFor(model => model.Stocks[0].Name), "AllStockReport", new { _orderBy = "Name", _sortDirection = ViewData["NameDirection"] })
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.Stocks[0].Ticker)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Stocks[0].Country.Name)
-                    </th>
+                    @Html.ActionLink(@Html.DisplayNameFor(model => model.Stocks[0].Country.Name), "AllStockReport", new { _orderBy = "Country", _sortDirection = ViewData["CountryDirection"] })
+                    </th >
+
                     <th>
-                        @Html.DisplayNameFor(model => model.Stocks[0].Sector.Name)
-                    </th>
+                    @Html.ActionLink(@Html.DisplayNameFor(model => model.Stocks[0].Sector.Name), "AllStockReport", new { _orderBy = "Sector", _sortDirection = ViewData["SectorDirection"] })
+                    </th >
+
                     <th>
-                        @Html.DisplayNameFor(model => model.Stocks[0].TotalQty)
-                    </th>
+                    @Html.DisplayNameFor(model => model.Stocks[0].TotalQty)
+                    </th >
+
                     <th>
-                        @Html.DisplayNameFor(model => model.Stocks[0].AvarageRate)
-                    </th>
+                    @Html.DisplayNameFor(model => model.Stocks[0].AvarageRate)
+                    </th >
+
                     <th>
-                        Original Value
-                    </th>
+                    Original Value
+                    </th >
                 </tr>
-            </thead>
-            <tbody>
+             </thead>
+        <tbody>
                 @foreach (var item in Model.Stocks)
                 {
                     if (item.TotalQty != 0)
                     {
                         <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Ticker)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Country.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Sector.Name)
-                            </td>
-                            <td class="text-right" style="width : 100px;">
-                                @Html.DisplayFor(modelItem => item.TotalQty)
-                            </td>
-                            <td class="text-right" style="width : 130px;">
-                                @String.Format("{0:0.00}", item.AvarageRate)
-                            </td>
-                            <td class="text-right font-weight-bold" style="width : 150px;">
-                                @item.Country.Currency
-                                @String.Format("{0:0.00}",  (item.AvarageRate * item.TotalQty))
-                            </td>
-                        </tr>
-                    }
-                }
-            </tbody>
-            @*<tfoot>
-                <tr>
-                    <td class="font-weight-bold">Total</td>
-                    <td class="font-weight-bold float-lg-right">@Model.Stocks.GroupBy(S => S.CountryId).Sum(s => (s.TotalQty * s.AvarageRate))</td>
-                </tr>*@
-        </table>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Ticker)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Country.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Sector.Name)
+                        </td>
+                        <td class="text-right" style="width : 100px;">
+                            @Html.DisplayFor(modelItem => item.TotalQty)
+                        </td>
+                        <td class="text-right" style="width : 130px;">
+                            @String.Format("{0:0.00}", item.AvarageRate)
+                        </td>
+                        <td class="text-right font-weight-bold" style="width : 150px;">
+                            @item.Country.Currency
+                            @String.Format("{0:0.00}", (item.AvarageRate* item.TotalQty))
+                        </td>
+                </tr>
+            }
+        }
+    </tbody>
+            @*<% foreach (var group in Model.GroupBy(item => item.Category)) { %>
+
+    <tr>
+        <%= Html.Encode(group.Key) %>
+
+            <% foreach (var item in group) { %>
+            <td><%= Html.Encode(item.Data) %></td>
+            <% } %>
+    </tr>
+
+    <% } %>*@
+                    @*<tfoot>
+    <tr>
+        <td class="font-weight-bold">Total</td>
+        <td class="font-weight-bold float-lg-right">@Model.Stocks.GroupBy(S => S.CountryId).Sum(s => (s.TotalQty * s.AvarageRate))</td>
+    </tr>*@
+</table>

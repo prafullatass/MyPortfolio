@@ -31,7 +31,7 @@ namespace MyPortfolio.Controllers
             return View();
         }
         [Authorize]
-        public async Task<IActionResult> AllStockReport()
+        public async Task<IActionResult> AllStockReport(string _orderBy, string _sortDirection)
         {
             var user = await GetCurrentUserAsync();
             ListOfStocks listOfStock = new ListOfStocks();
@@ -39,7 +39,51 @@ namespace MyPortfolio.Controllers
                                         .Include(s => s.Sector)
                                         .Include(s => s.Transactions)
                                             .ThenInclude(t => t.UserAgency)
-                                        .Distinct().ToListAsync();
+                                        .ToListAsync();
+
+            if (_orderBy != null)
+            {
+                switch (_orderBy)
+                {
+                    case "Name":
+                        if (_sortDirection == null || _sortDirection == "asc")
+                        {
+                            listOfStock.Stocks = listOfStock.Stocks.OrderBy(s => s.Name).ToList();
+                            ViewData["NameDirection"] = "desc";
+                        }
+                        else
+                        {
+                            listOfStock.Stocks = listOfStock.Stocks.OrderByDescending(s => s.Name).ToList();
+                            ViewData["NameDirection"] = "asc";
+                        }
+                        break;
+                    case "Country":
+                        if (_sortDirection == null || _sortDirection == "asc")
+                        {
+                            listOfStock.Stocks = listOfStock.Stocks.OrderBy(s => s.Country.Name).ToList();
+                            ViewData["CountryDirection"] = "desc";
+                        }
+                        else
+                        {
+                            listOfStock.Stocks = listOfStock.Stocks.OrderByDescending(s => s.Country.Name).ToList();
+                            ViewData["CountryDirection"] = "asc";
+                        }
+                        break;
+                    case "Sector":
+                        if (_sortDirection == null || _sortDirection == "asc")
+                        {
+                            listOfStock.Stocks = listOfStock.Stocks.OrderBy(s => s.Sector.Name).ToList();
+                            ViewData["SectorDirection"] = "desc";
+                        }
+                        else
+                        {
+                            listOfStock.Stocks = listOfStock.Stocks.OrderByDescending(s => s.Sector.Name).ToList();
+                            ViewData["SectorDirection"] = "asc";
+                        }
+                        break;
+                }
+            }
+
             //select transactions of the logged in user only
             foreach (Stock st in listOfStock.Stocks)
             {
