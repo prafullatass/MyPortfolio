@@ -53,13 +53,14 @@ namespace MyPortfolio.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public async Task<IActionResult> MakeACountry(string CountryName)
+        public async Task<IActionResult> MakeACountry(string CountryName, string Currency)
         {
             Country ct = _context.Countries.Where(c => c.Name == CountryName).FirstOrDefault();
             if (ct == null)
             {
                 Country country = new Country();
                 country.Name = CountryName;
+                country.Currency = Currency;
 
                 if (ModelState.IsValid)
                 {

@@ -197,7 +197,6 @@ namespace MyPortfolio.Controllers
             Agency agency = new Agency();
             agency.Name = AgencyName;
             agency.CountryId = CountryId;
-            agency.OpeningDate = DateTime.Now;
             _context.Add(agency);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(UserAgenciesController.Create), "UserAgencies");

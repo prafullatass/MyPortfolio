@@ -18,6 +18,7 @@ namespace MyPortfolio.Models
         [Required]
         [Display(Name = "Account No. ")]
         public int AccountNo { get; set; }
+        public DateTime OpeningDate { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
         public Agency Agency { get; set; }
         public ApplicationUser User { get; set; }

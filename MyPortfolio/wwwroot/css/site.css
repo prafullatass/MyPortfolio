@@ -85,3 +85,13 @@ body {
 .tab_10 {
     margin-left : 20px;
 }
+
+h1{
+    color: indigo;
+    font-family:'Times New Roman';
+}
+
+.listHeader {
+    background-color:whitesmoke;
+    font-family:'Times New Roman', Times, serif;
+}

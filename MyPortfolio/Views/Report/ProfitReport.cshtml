@@ -7,7 +7,7 @@
 <h5 class="font-weight-light font-italic"> Date : @DateTime.Now</h5>
 
 <table class="table table-bordered">
-    <thead>
+    <thead class="listHeader">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Stocks[0].Name)
@@ -29,7 +29,7 @@
                 @Html.DisplayNameFor(model => model.Stocks[0].AvarageRate)
             </th>
             <th>
-                
+                Total Profit/Loss
             </th>
         </tr>
     </thead>
@@ -58,61 +58,62 @@
                         @Html.DisplayFor(modelItem => item.AvarageRate)
                     </td>
                     <td class="text-right font-weight-bold" style="width : 130px;">
+                        @item.Country.Currency
                         @String.Format("{0:0.00}", (item.AvarageRate * item.TotalQty))
+                    </td>
+             </tr >
+            }
+        }
+        </tbody >
+                    @*<tfoot>
+    <tr>
+        <td class="font-weight-bold">Total</td>
+        <td class="font-weight-bold float-lg-right">@Model.Stocks.GroupBy(S => S.CountryId).Sum(s => (s.TotalQty * s.AvarageRate))</td>
+    </tr>*@
+</table >
+
+                    @*<h1>ProfitReport</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Ticker)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Country)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Sector)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ticker)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Country.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sector.Name)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.StockId">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.StockId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.StockId">Delete</a>
                     </td>
                 </tr>
             }
-        }
-    </tbody>
-    @*<tfoot>
-        <tr>
-            <td class="font-weight-bold">Total</td>
-            <td class="font-weight-bold float-lg-right">@Model.Stocks.GroupBy(S => S.CountryId).Sum(s => (s.TotalQty * s.AvarageRate))</td>
-        </tr>*@
-</table>
-
-@*<h1>ProfitReport</h1>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ticker)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Country)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Sector)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Ticker)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Country.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Sector.Name)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.StockId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.StockId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.StockId">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>*@
+        </tbody>
+    </table>*@

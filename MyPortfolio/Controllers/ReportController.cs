@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
-using System.Web.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyPortfolio.Data;
 using MyPortfolio.Models;
-using MyPortfolio.Models.ChartModel;
 using MyPortfolio.Models.StocksViewModel;
 using Newtonsoft.Json;
 
@@ -160,14 +157,9 @@ namespace MyPortfolio.Controllers
             return View(listOfSector);
         }
 
-        public IActionResult ChartReport2()
-        {
-            return View();
-        }
+        [Authorize]
         public async Task<IActionResult> ChartReport()
         {
-            List<double> ValueArray = new List<double>();
-            List<string> NameArray = new List<string>();
             List<List<object>> Arr = new List<List<object>>();
             List<object> array1 = new List<object>();
             array1.Add("ticker");
@@ -178,8 +170,15 @@ namespace MyPortfolio.Controllers
             listOfStock.Stocks = await _context.Stocks.Include(s => s.Country)
                                         .Include(s => s.Sector)
                                         .Include(s => s.Transactions)
+                                            .ThenInclude(t=>t.UserAgency)
                                         .Distinct().ToListAsync();
-            int i = 0;
+
+            var user = await GetCurrentUserAsync();
+            foreach (Stock st in listOfStock.Stocks)
+            {
+                st.Transactions = st.Transactions.Where(t => t.UserAgency.UserId == user.Id).ToList();
+            }
+
             foreach (Stock st in listOfStock.Stocks)
             {
                 foreach (Transaction t in st.Transactions)
@@ -196,82 +195,17 @@ namespace MyPortfolio.Controllers
                         st.TotalQty -= t.Qty;
                     }
                 }
-                ValueArray.Add(st.AvarageRate * st.TotalQty);
-                NameArray.Add(st.Ticker);
                 List<object> array = new List<object>();
-               array.Add(st.Ticker);
-                array.Add(st.TotalQty);
+                array.Add(st.Ticker);
+                array.Add(st.TotalQty*st.AvarageRate);
                 Arr.Add(array);
-                //Arr[i] = [{v = st.Ticker;
-                // Arr[i] = [new { v= (st.AvarageRate * st.TotalQty)}];
             }
-            ViewBag.ValueArray = ValueArray;
-            ViewBag.NameArray = NameArray;
             Arr = Arr.ToList();
             
-
             string json = JsonConvert.SerializeObject(Arr);
             
             ViewBag.Arr = json;
              return View();
-            //return Json(Arr);
         }
-
-        public IActionResult UseDataFromServer()
-        {
-            return View();
-        }
-
-        public JsonResult JsonData()
-        {
-            var data = ModelHelper.MultiLineData();
-            return Json(data);
-        }
-
-        //public async JsonResult jsonData ()
-        //{
-        //    List<double> ValueArray = new List<double>();
-        //    List<string> NameArray = new List<string>();
-        //    List<List<object>> Arr = new List<List<object>>();
-
-        //    ListOfStocks listOfStock = new ListOfStocks();
-        //    listOfStock.Stocks = await _context.Stocks.Include(s => s.Country)
-        //                                .Include(s => s.Sector)
-        //                                .Include(s => s.Transactions)
-        //                                .Distinct().ToListAsync();
-        //    int i = 0;
-        //    foreach (Stock st in listOfStock.Stocks)
-        //    {
-        //        foreach (Transaction t in st.Transactions)
-        //        {
-        //            if (t.BuyOrSell)
-        //            {
-        //                double total = st.TotalQty * st.AvarageRate;
-        //                total = total + (t.Qty * t.Rate);
-        //                st.TotalQty += t.Qty;
-        //                st.AvarageRate = Math.Round((total / st.TotalQty) * 100) / 100;
-        //            }
-        //            else
-        //            {
-        //                st.TotalQty -= t.Qty;
-        //            }
-        //        }
-        //        ValueArray.Add(st.AvarageRate * st.TotalQty);
-        //        NameArray.Add(st.Ticker);
-        //        List<object> array = new List<object>();
-        //        array.Add(st.Ticker);
-        //        array.Add(st.TotalQty);
-        //        Arr.Add(array);
-        //        //Arr[i] = [{v = st.Ticker;
-        //        // Arr[i] = [new { v= (st.AvarageRate * st.TotalQty)}];
-        //    }
-        //    ViewBag.ValueArray = ValueArray;
-        //    ViewBag.NameArray = NameArray;
-        //    Arr = Arr.ToList();
-
-
-        //    string json = JsonConvert.SerializeObject(Arr);
-        //    return(json);
-        //}
     }
 }

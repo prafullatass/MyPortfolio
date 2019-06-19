@@ -9,7 +9,7 @@
 <h5 class="font-weight-light font-italic"> Date : @DateTime.Now</h5>
 
 <table class="table table-bordered">
-    <thead>
+    <thead class="listHeader">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
@@ -30,8 +30,7 @@
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td class="text-right font-weight-bold" style="width : 250px;">
-
-                        @Html.DisplayFor(modelItem =>  item.TotalValue)
+                        @String.Format("{0:0.00}", item.TotalValue)
                     </td>
                 </tr>
             }

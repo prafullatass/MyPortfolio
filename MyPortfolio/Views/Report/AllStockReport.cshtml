@@ -11,7 +11,7 @@
         <h5 class="font-weight-light font-italic"> Date : @DateTime.Now</h5>
 
         <table class="table table-bordered">
-            <thead>
+            <thead class="listHeader">
                 <tr>
                     <th>
                         @Html.DisplayNameFor(model => model.Stocks[0].Name)
@@ -59,11 +59,11 @@
                                 @Html.DisplayFor(modelItem => item.TotalQty)
                             </td>
                             <td class="text-right" style="width : 130px;">
-                                 @Html.DisplayFor(modelItem => item.AvarageRate)
+                                @String.Format("{0:0.00}", item.AvarageRate)
                             </td>
                             <td class="text-right font-weight-bold" style="width : 150px;">
+                                @item.Country.Currency
                                 @String.Format("{0:0.00}",  (item.AvarageRate * item.TotalQty))
-
                             </td>
                         </tr>
                     }

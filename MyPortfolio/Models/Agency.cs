@@ -16,7 +16,7 @@ namespace MyPortfolio.Models
         [StringLength(30)]
         [Display(Name = "Agency")]
         public string Name { get; set; }
-        public DateTime OpeningDate { get; set; }
+        
         public Country Country { get; set; }
         public virtual ICollection<UserAgency> UserAgencies { get; set; }
     }

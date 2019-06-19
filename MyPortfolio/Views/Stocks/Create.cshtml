@@ -35,16 +35,18 @@
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">
-                                ×
-                            </button>
                             <h4 class="modal-title">New Country</h4>
                         </div>
-                        <form action="/Countries/MakeACountry" method="POST" class="form-inline">
+                        <form action="/Countries/MakeACountry" method="POST" class="form " >
                             <div class="modal-body">
-                                New Country :
-                                <input asp-for="Name" class="form-control" placeholder="New Country Name"
+                                <label>New Country :</label>
+                                <input  class="form-control" placeholder="New Country Name"
                                        type="text" name="CountryName" />
+                                <br/>
+                                <label>Currency :</label>
+                                <input  class="form-control" placeholder="Country Currency "
+                                       type="text" name="Currency" />
+                                <br/>
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary button button4">
