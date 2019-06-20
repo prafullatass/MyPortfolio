@@ -24,6 +24,7 @@ namespace MyPortfolio.Models
         [Required]
         [Display(Name = "Action")]
         public Boolean BuyOrSell { get; set; }
+        public Double Value { get; set; }
         public int UserAgencyId { get; set; }
 
         public UserAgency UserAgency { get; set; }

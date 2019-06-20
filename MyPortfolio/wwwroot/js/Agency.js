@@ -6,7 +6,7 @@ document.getElementById("Agency_CountryId").addEventListener("change", () => {
         .then(r => r.json())
         .then(response => {
             $("#Agencies").empty();
-            $("#Agencies").append("<option value=null>Choose stock</option>");
+            $("#Agencies").append("<option value=null>Choose Agency --- </option>");
             for (i = 0; i < response.length; i++) {
                 $("#Agencies").append(`<option value = "${response[i].agencyId}">${response[i].name}</option>`);
             }
