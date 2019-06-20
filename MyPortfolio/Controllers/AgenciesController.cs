@@ -74,8 +74,6 @@ namespace MyPortfolio.Controllers
         {
             //if (ModelState.IsValid)
             {
-                _context.Add(newAgency.Agency);
-                await _context.SaveChangesAsync();
                 // add data to userAgency table
                 UserAgency userAgency = new UserAgency();
                 var user = await GetCurrentUserAsync();
@@ -83,6 +81,7 @@ namespace MyPortfolio.Controllers
                 userAgency.AgencyId = newAgency.Agency.AgencyId;
                 userAgency.UserId = user.Id;
                 userAgency.AccountNo = newAgency.UserAgency.AccountNo;
+                userAgency.OpeningDate = DateTime.Now;
                 _context.Add(userAgency);
                 await _context.SaveChangesAsync();
 

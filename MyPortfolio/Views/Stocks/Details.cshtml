@@ -105,7 +105,7 @@
                             @String.Format("{0:0.00}", item.Rate)
                         </td>
                         <td class="text-right font-weight-bold" style="width : 250px;">
-                                @String.Format("{0:0.00}",item.Value)
+                                @String.Format("{0:0.00}",item.Rate *item.Qty)
                         </td>
                     </tr>
                 }

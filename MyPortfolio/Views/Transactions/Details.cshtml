@@ -10,46 +10,54 @@
     <h4>Transaction</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Date)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Date)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Qty)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Qty)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Rate)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Rate)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Value)
+        <dt class="col-sm-2">
+            Value
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Value)
+        <dd class="col-sm-10">
+            @(Model.Rate * Model.Qty)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.BuyOrSell)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BuyOrSell)
+        <dd class="col-sm-10">
+            @if (Model.BuyOrSell == true)
+            {
+                @Html.Label("Buy")
+            }
+            else
+            {
+                @Html.Label("Sell")
+            }
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.UserAgency)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UserAgency.UserAgencyId)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserAgency.Agency.Name) -
+            @Html.DisplayFor(model => model.UserAgency.AccountNo)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Stock)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Stock.Name)
         </dd>
     </dl>

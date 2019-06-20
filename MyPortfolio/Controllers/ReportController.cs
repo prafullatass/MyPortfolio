@@ -148,8 +148,9 @@ namespace MyPortfolio.Controllers
                     }
                     else
                     {
-                        st.Profit = st.Profit + (t.Qty * st.AvarageRate);
+                        st.Profit = st.Profit + ((t.Qty * t.Rate) - (t.Qty * st.AvarageRate));
                         st.TotalQty -= t.Qty;
+                        st.ProfitQty += t.Qty;
                     }
                 }
             }

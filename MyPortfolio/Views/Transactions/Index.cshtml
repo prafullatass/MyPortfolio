@@ -4,34 +4,34 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Transactions</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table class="table table-hover">
     <thead class="listHeader">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Date)
+                @Html.DisplayNameFor(model => model.UserAgency)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Stock)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Qty)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Rate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Value)
+                @Html.DisplayNameFor(model => model.Date)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.BuyOrSell)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserAgency)
+            <th class="text-right">
+                @Html.DisplayNameFor(model => model.Qty)
+            </th>
+            <th class="text-right">
+                @Html.DisplayNameFor(model => model.Rate)
+            </th>
+            <th class="text-right">
+                Total Value
             </th>
             <th></th>
         </tr>
@@ -40,19 +40,14 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.UserAgency.Agency.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Stock.Name) -- 
+                @Html.DisplayFor(modelItem => item.Stock.Ticker)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stock.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Qty)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Value)
             </td>
             <td>
                 @if (item.BuyOrSell == true)
@@ -64,8 +59,15 @@
                     @Html.Label("Sell")
                 }
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserAgency.Agency.Name)
+            <td class="text-right">
+                @Html.DisplayFor(modelItem => item.Qty)
+            </td>
+            <td class="text-right">
+                @String.Format("{0:0.00}", item.Rate)
+            </td>
+            <td class="text-right font-weight-bold" style="width : 150px;">
+                @Html.DisplayFor(modelItem => item.Stock.Country.Currency)
+                @String.Format("{0:0.00}", (item.Rate * item.Qty))
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.TransactionId">Edit</a> |

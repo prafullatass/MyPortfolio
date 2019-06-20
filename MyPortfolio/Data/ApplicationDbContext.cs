@@ -91,7 +91,7 @@ namespace MyPortfolio.Data
                     Date = DateTime.Now,
                     Rate = 25.80,
                     Qty = 10,
-                    Value = 260.00,
+                    
                     BuyOrSell = true
                 });
         }

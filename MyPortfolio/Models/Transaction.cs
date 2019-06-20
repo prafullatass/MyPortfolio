@@ -20,9 +20,7 @@ namespace MyPortfolio.Models
         public int Qty { get; set; }
         [Required]
         public Double Rate { get; set; }
-        [Required]
-        [Display(Name = "Value")]
-        public Double Value { get; set; }
+        
         [Required]
         [Display(Name = "Action")]
         public Boolean BuyOrSell { get; set; }

@@ -83,6 +83,7 @@ namespace MyPortfolio.Controllers
             var user = await GetCurrentUserAsync();
             userAgency.AgencyId = newAgency.Agency.AgencyId;
             userAgency.UserId = user.Id;
+            userAgency.OpeningDate = DateTime.Now;
             ModelState.Remove("UserAgency.UserId");
             ModelState.Remove("Agency.Name");
             if (ModelState.IsValid)

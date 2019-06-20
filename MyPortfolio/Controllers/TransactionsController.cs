@@ -33,6 +33,7 @@ namespace MyPortfolio.Controllers
             var user = await GetCurrentUserAsync();
             var applicationDbContext = _context.Transactions
                                         .Include(t => t.Stock)
+                                            .ThenInclude(s => s.Country)
                                         .Include(t => t.UserAgency)
                                             .ThenInclude(ua => ua.Agency)
                                         .Where(t => t.UserAgency.UserId == user.Id)
@@ -51,6 +52,7 @@ namespace MyPortfolio.Controllers
             var transaction = await _context.Transactions
                 .Include(t => t.Stock)
                 .Include(t => t.UserAgency)
+                     .ThenInclude(ua => ua.Agency)
                 .FirstOrDefaultAsync(m => m.TransactionId == id);
             if (transaction == null)
             {
@@ -118,8 +120,19 @@ namespace MyPortfolio.Controllers
             {
                 return NotFound();
             }
+            //make a list of Agency Name and Account no
+            var user = await GetCurrentUserAsync();
+            var agencyDetails = _context.UserAgencies.Include(ua => ua.Agency)
+                                    .Where(ua => ua.UserId == user.Id)
+                                    .Select(ua => new
+                                    {
+                                        userAgencyId = ua.UserAgencyId,
+                                        desc = string.Format("{0}-- {1}", ua.Agency.Name, ua.AccountNo)
+                                    }).ToList();
+            //ViewData["StockId"] = new SelectList(_context.Stocks, "StockId", "Name");
+            ViewData["UserAgencyId"] = new SelectList(agencyDetails, "userAgencyId", "desc");
             ViewData["StockId"] = new SelectList(_context.Stocks, "StockId", "Name", transaction.StockId);
-            ViewData["UserAgencyId"] = new SelectList(_context.UserAgencies, "UserAgencyId", "UserAgencyId", transaction.UserAgencyId);
+            
             return View(transaction);
         }
 
@@ -155,8 +168,19 @@ namespace MyPortfolio.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            //make a list of Agency Name and Account no
+            var user = await GetCurrentUserAsync();
+            var agencyDetails = _context.UserAgencies.Include(ua => ua.Agency)
+                                    .Where(ua => ua.UserId == user.Id)
+                                    .Select(ua => new
+                                    {
+                                        userAgencyId = ua.UserAgencyId,
+                                        desc = string.Format("{0}-- {1}", ua.Agency.Name, ua.AccountNo)
+                                    }).ToList();
+            //ViewData["StockId"] = new SelectList(_context.Stocks, "StockId", "Name");
+            ViewData["UserAgencyId"] = new SelectList(agencyDetails, "userAgencyId", "desc");
             ViewData["StockId"] = new SelectList(_context.Stocks, "StockId", "Name", transaction.StockId);
-            ViewData["UserAgencyId"] = new SelectList(_context.UserAgencies, "UserAgencyId", "UserAgencyId", transaction.UserAgencyId);
+            
             return View(transaction);
         }
 
@@ -171,6 +195,7 @@ namespace MyPortfolio.Controllers
             var transaction = await _context.Transactions
                 .Include(t => t.Stock)
                 .Include(t => t.UserAgency)
+                    .ThenInclude(ua =>ua.Agency)
                 .FirstOrDefaultAsync(m => m.TransactionId == id);
             if (transaction == null)
             {
