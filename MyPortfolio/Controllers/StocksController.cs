@@ -130,6 +130,15 @@ namespace MyPortfolio.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            else
+            {
+                if(stock.CountryId == 0 )
+                    ViewBag.Message = "Select a Country from dropdown list";
+                else
+                if (stock.SectorId == 0)
+                    ViewBag.Message = "Select a Sector from dropdown list";
+
+            }
             ViewData["CountryId"] = new SelectList(_context.Countries, "CountryId", "Name", stock.CountryId);
             ViewData["SectorId"] = new SelectList(_context.Sectors, "SectorId", "Name", stock.SectorId);
             return View(stock);
