@@ -13,16 +13,16 @@
     <thead class="listHeader">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.ActionLink(@Html.DisplayNameFor(model => model.Name), "Index", new { _orderBy = "Name", _sortDirection = ViewData["NameDirection"] })
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Ticker)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Country)
+                @Html.ActionLink(@Html.DisplayNameFor(model => model.Country), "Index", new { _orderBy = "Country", _sortDirection = ViewData["CountryDirection"] })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Sector)
+                @Html.ActionLink(@Html.DisplayNameFor(model => model.Sector), "Index", new { _orderBy = "Sector", _sortDirection = ViewData["SectorDirection"] })
             </th>
             <th></th>
         </tr>

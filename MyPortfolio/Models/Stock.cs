@@ -15,7 +15,7 @@ namespace MyPortfolio.Models
         public int CountryId { get; set; }
         [Required]
         [StringLength(30)]
-        [Display(Name = "Stock")]
+        [Display(Name = "Stock Name")]
         public string Name { get; set; }
         [Required]
         [StringLength(6)]

@@ -30,13 +30,57 @@ namespace MyPortfolio.Controllers
        
         // GET: Stocks
         [Authorize]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string _orderBy, string _sortDirection)
         {
-            var applicationDbContext = _context.Stocks
+            List<Stock> applicationDbContext = await _context.Stocks
                                                 .Include(s => s.Country)
-                                                .Include(s => s.Sector);
-            return View(await applicationDbContext.ToListAsync());
+                                                .Include(s => s.Sector)
+                                                .ToListAsync();
+        if (_orderBy != null)
+            {
+                switch (_orderBy)
+                {
+                    case "Name":
+                        if (_sortDirection == null || _sortDirection == "asc")
+                        {
+                            applicationDbContext  = applicationDbContext.OrderBy(s => s.Name).ToList();
+                            ViewData["NameDirection"] = "desc";
+                        }
+                        else
+                        {
+                            applicationDbContext = applicationDbContext.OrderByDescending(s => s.Name).ToList();
+                            ViewData["NameDirection"] = "asc";
+                        }
+                        break;
+                        case "Country":
+                        if (_sortDirection == null || _sortDirection == "asc")
+                        {
+                            applicationDbContext = applicationDbContext.OrderBy(s => s.Country.Name).ToList();
+                            ViewData["CountryDirection"] = "desc";
+                        }
+                        else
+                        {
+                            applicationDbContext = applicationDbContext.OrderByDescending(s => s.Country.Name).ToList();
+                            ViewData["CountryDirection"] = "asc";
+                        }
+                        break;
+                        case "Sector":
+                        if (_sortDirection == null || _sortDirection == "asc")
+                        {
+                            applicationDbContext = applicationDbContext.OrderBy(s => s.Sector.Name).ToList();
+                            ViewData["SectorDirection"] = "desc";
+                        }
+                        else
+                        {
+                            applicationDbContext = applicationDbContext.OrderByDescending(s => s.Sector.Name).ToList();
+                            ViewData["SectorDirection"] = "asc";
+                        }
+                        break;
+                }
+            }
+            return View(applicationDbContext);
         }
+
 
         // GET: Stocks/Details/5
         public async Task<IActionResult> Details(int? id)
