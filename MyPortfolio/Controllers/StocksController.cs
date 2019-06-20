@@ -126,9 +126,22 @@ namespace MyPortfolio.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(stock);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                stock.Name = char.ToUpper(stock.Name[0]) + stock.Name.Substring(1);
+                stock.Ticker = stock.Ticker.ToUpper();
+                Stock st = _context.Stocks
+                                    .Where(s => (s.CountryId == stock.CountryId) &&
+                                    (s.Name == stock.Name || s.Ticker == stock.Ticker))
+                                    .FirstOrDefault();
+                if(st == null)
+                {
+                    _context.Add(stock);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ViewBag.Message = "This Stock Already entered!!";
+                }
             }
             else
             {
