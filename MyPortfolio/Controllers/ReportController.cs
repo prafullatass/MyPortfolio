@@ -214,12 +214,12 @@ namespace MyPortfolio.Controllers
         [Authorize]
         public async Task<IActionResult> ChartReport(int? _id)
         {
-
             var user = await GetCurrentUserAsync();
-            List<Country> list = _context.Countries.ToList();
             ViewData["CountryId"] = new SelectList(_context.Countries, "CountryId", "Name");
+
             if (_id == null)
             {
+                List<Country> list = _context.Countries.ToList();
                 _id = list[0].CountryId;
             }
             List<List<object>> Arr = new List<List<object>>();
