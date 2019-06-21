@@ -28,9 +28,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Stocks[0].Profit)
             </th>
-            <th>
-                Total Profit/Loss
-            </th>
         </tr>
     </thead>
     <tbody>
@@ -54,15 +51,25 @@
                     <td class="text-right" style="width : 100px;">
                         @Html.DisplayFor(modelItem => item.ProfitQty)
                     </td>
-                    <td class="text-right" style="width : 130px;">
-                        @Html.DisplayFor(modelItem => item.Profit)
-                    </td>
                     <td class="text-right font-weight-bold" style="width : 130px;">
                         @item.Country.Currency
-                        @String.Format("{0:0.00}", (item.Profit * item.ProfitQty))
+                        @String.Format("{0:0.00}",  item.Profit)
                     </td>
-             </tr >
+                </tr>
             }
         }
-        </tbody >
-    </table>
+    </tbody>
+</table>
+@foreach (var item in Model.TotalValues)
+{
+    if (item.Total != 0)
+    {
+        <div class="footer_report">
+            <div class="font-weight-bold">
+                @Html.DisplayFor(modelItem => item.CountryName) ---
+                @Html.DisplayFor(modelItem => item.Currnecy)
+                @String.Format("{0:0.00}", item.Total)
+            </div>
+        </div>
+    }
+}

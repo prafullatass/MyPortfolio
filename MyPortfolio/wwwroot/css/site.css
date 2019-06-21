@@ -98,6 +98,8 @@ h1{
     background-color:whitesmoke;
     font-family:'Times New Roman', Times, serif;
 }
-.footer_report{
-    float:right;
+.footer_report {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 }

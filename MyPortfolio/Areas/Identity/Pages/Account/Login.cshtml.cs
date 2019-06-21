@@ -68,7 +68,7 @@ namespace MyPortfolio.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/Stocks/AllStockReport");
+            returnUrl = returnUrl ?? Url.Content("~/Report/AllStockReport");
 
             if (ModelState.IsValid)
             {

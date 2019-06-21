@@ -154,6 +154,14 @@ namespace MyPortfolio.Controllers
                     }
                 }
             }
+            listOfStock.TotalValues = listOfStock.Stocks
+                                      .GroupBy(s => s.Country.Name)
+                                      .Select(group => new TotalValue
+                                      {
+                                          CountryName = group.Key,
+                                          Currnecy = group.Select(item => item.Country.Currency).First().ToString(),
+                                          Total = group.Sum(item => item.Profit)
+                                      }).ToList();
             return View(listOfStock);
         }
 
